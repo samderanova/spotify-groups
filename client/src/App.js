@@ -12,22 +12,30 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function login(e) {
-    fetch("http://localhost:5000/users/login").then(res => res.json().then(data => {
-      console.log(data["url"]);
-      window.location.href = data["url"]
-    }));
-    const urlParams = new URLSearchParams(window.location);
-    const code = urlParams.get("code");
-    const state = urlParams.get("code");
-    
-
-    setIsLoggedIn(true);
+    fetch("http://localhost:5000/users/login")
+      .then(res => res.json()
+      .then(data => {
+        console.log(data["url"]);
+        window.location.href = data["url"]
+      }));
   }
 
   function logout(e) {
     setIsLoggedIn(false);
   }
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location);
+    const code = urlParams.get("code");
+    const state = urlParams.get("code");
+    
+    console.log(urlParams.toString());
+
+    if (code && state) {
+      setIsLoggedIn(true);
+    }
+
+  }, []);
   return (
     <div className="App">
       <BrowserRouter>
