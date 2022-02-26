@@ -82,8 +82,8 @@ function Home() {
                 <h1 className="text-center">Playlist Name</h1>
                 <div className="row">
                     <div className="col-lg-4">
-                        <div id="group-playlists-decoration"></div>
-                        <div className="w-75 py-2 px-3 m-auto card" id='group-playlists'>
+                        <div className="widget-decoration"></div>
+                        <div className="w-75 py-2 px-3 m-auto gen-widget">
                             <span id="playlist-logo" style={{ backgroundImage: `url(${currentPlaylist})` }}></span>
                             <h2 className="text-center" id="group-name">Study Group</h2>
                             <h3 className="text-center" id="group-playlists-header">Playlists</h3>
