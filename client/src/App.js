@@ -1,25 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Navbar, Nav, Container } from 'react-bootstrap';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCaretDown, faCaretUp, faPause, faPlay, faFastForward, faFastBackward } from '@fortawesome/free-solid-svg-icons';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 
 import Home from './pages/Home/Home';
 
 import logo from './logo.svg';
 import './App.css';
 
-library.add(faCaretUp, faCaretDown, faPause, faPlay, faFastForward, faFastBackward);
 
 function App() {
-  useEffect(() => {
-    // fetch("http://localhost:5000/login")
-  }, []);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  function login(e) {
+    fetch("http://localhost:5000/users/login").then(res => res.json().then(data => {
+      console.log(data["url"]);
+      window.location.href = data["url"]
+    }));
+    const urlParams = new URLSearchParams(window.location);
+    const code = urlParams.get("code");
+    const state = urlParams.get("code");
+    
+
+    setIsLoggedIn(true);
+  }
+
+  function logout(e) {
+    setIsLoggedIn(false);
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
         <Navbar bg="dark" expand="lg" variant="dark">
-          <Container fluid>
+          <Container>
             <Navbar.Brand href="/">
               <img src={logo} alt="SpotiGroup logo" width="100" />
               SpotiGroup
@@ -27,6 +40,15 @@ function App() {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto">
+                {isLoggedIn ?
+                  <NavDropdown title={`Hello, user!`} id="basic-nav-dropdown">
+                    <NavDropdown.Item>
+                      <button type="button" className="btn btn-none w-100 text-start" onClick={logout}>Logout</button>
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                :
+                  <button type="button" className="btn btn-none" onClick={login} style={{ color: "white" }}>Login</button>
+                }
               </Nav>
             </Navbar.Collapse>
           </Container>

@@ -28,10 +28,10 @@
     text-align: center;
 }
 
-button {
+.Home button {
     padding: 0 !important;
 }
 
-.audio-controls svg {
+.audio-controls i {
     font-size: 2rem;
 }

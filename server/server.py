@@ -1,13 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, redirect
 from flask_socketio import SocketIO, join_room, leave_room, emit, send
+from flask_cors import CORS, cross_origin
 from typing import Any, Dict
 from secret_stuff import env_variables
 import util
 import urllib
+import json
 
 json_type = Dict[str, object]
 
 app = Flask(__name__)
+CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 socketio = SocketIO(app)
 
 
@@ -21,16 +25,18 @@ def register(data: json_type):
     ...
 
 
-@app.route("/users/login", methods=["GET", "POST"])
-def login(data: json_type):
+@app.route("/users/login", methods=["GET"])
+@cross_origin()
+def login():
     data = {"state": util.id_generator(size=8),
             "response_type": 'code',
             "scope": "user-read-private user-read-email",
             "client_id": env_variables["SPOTIFY_CLIENT_ID"],
-            "client_secret": env_variables["SPOTIFY_CLIENT_SECRET"]
+            "client_secret": env_variables["SPOTIFY_CLIENT_SECRET"],
+            "redirect_uri": "http://localhost:3000",
             }
 
-    return redirect("https://accounts.spotify.com/authorize?" + urllib.parse.urlencode(data))
+    return jsonify(url="https://accounts.spotify.com/authorize?" + urllib.parse.urlencode(data))
 
 
 @app.route("/users/logout")

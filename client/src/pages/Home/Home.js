@@ -14,7 +14,7 @@ function Home() {
     const [currentPlaylist, setCurrentPlaylist] = useState('');
     const [currentAlbum, setCurrentAlbum] = useState('');
     const [queue, setQueue] = useState([]);
-    const [playPauseIcon, setPlayPauseIcon] = useState('play');
+    const [playPauseIcon, setPlayPauseIcon] = useState('fa-play');
     
     useEffect(() => {
         // fetch().then(res => {}).catch(err => console.error(err));
@@ -116,16 +116,19 @@ function Home() {
                                     </button>
                                 </div>
                             </div>
-                            <h3 className="text-center">{/* currentAlbum.songTitle */}Song Title</h3>
+                            <div className="text-center">
+                                <h3>{/* currentAlbum.songTitle */}Song Title</h3>
+                                <h4>Song Album</h4>
+                            </div>
                             <div className="row audio-controls align-items-center">
                                 <div className="col-md-4">
-                                    <span >
-                                        <FontAwesomeIcon icon="backward-fast" />
+                                    <span>
+                                        <i className="fa-solid fa-backward-fast"></i>
                                     </span>
                                 </div>
                                 <div className="col-md-4">
                                     <span className="small-playlist-logo" onClick={playPause} style={{ position: "relative" }}>
-                                        <FontAwesomeIcon icon={playPauseIcon} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />
+                                        <i className={`fa-solid ${playPauseIcon}`} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}></i>
                                     </span>
                                 </div>
                                 <div className="col-md-4">
