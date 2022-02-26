@@ -1,23 +1,32 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+
+import Home from './pages/Home/Home';
+
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Navbar bg="dark" expand="lg" variant="dark">
+          <Container fluid>
+            <Navbar.Brand href="/">
+              <img src={logo} alt="SpotiGroup logo" width="100" />
+              SpotiGroup
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="ms-auto">
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
