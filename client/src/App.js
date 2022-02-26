@@ -27,9 +27,9 @@ function App() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location);
     const code = urlParams.get("code");
-    const state = urlParams.get("code");
+    const state = urlParams.get("state");
     
-    console.log(urlParams.toString());
+    console.log(code, state);
 
     if (code && state) {
       setIsLoggedIn(true);
