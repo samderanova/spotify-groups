@@ -1,64 +1,69 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, redirect
 from flask_socketio import SocketIO, join_room, leave_room, emit, send
 from typing import Any, Dict
+from secret_stuff import env_variables
 import util
+import urllib
+
 json_type = Dict[str, object]
 
-
-class Application:
-    def __init__(self, flask_app: Flask, flask_socketio: SocketIO):
-
-        self.app = flask_app
-        self.socketio = flask_socketio
-
-    @self.app.route("/", methods=["GET"])
-    def home(self):
-        ...
-
-    @self.app.route("users/register", methods=["GET", "POST"])
-    def register(self, data: json_type):
-        random_string = util.id_generator(size=8)
-
-    @self.app.route("users/login", methods=["GET", "POST"])
-    def login(self, data: json_type):
+app = Flask(__name__)
+socketio = SocketIO(app)
 
 
-    @self.app.route("users/logout")
-    def logout(self, data: json_type):
-        ...
+@app.route("/", methods=["GET"])
+def home():
+    ...
 
 
-    @self.socketio.on("join_room")
-    def on_join(self, data: json_type):
-        """
+@app.route("/users/register", methods=["GET", "POST"])
+def register(data: json_type):
+    ...
 
-        :param data: Data from client side
-        :return:
-        """
-        username = data.get('username', None)
-        room = data.get("room", 0)
-        if room is None:
-            app.logger.error("Room number is not provided")
-        join_room(room)
-        app.logger.info(f"{username} has entered room {room}")
 
-    @self.socketio.on("leave_room")
-    def on_leave(self, data: json_type):
-        username = data.get('username')
-        room = data.get("room")
-        if room is None:
-            app.logger.info("Room number is not provided")
-        leave_room(room)
+@app.route("/users/login", methods=["GET", "POST"])
+def login(data: json_type):
+    data = {"state": util.id_generator(size=8),
+            "response_type": 'code',
+            "scope": "user-read-private user-read-email",
+            "client_id": env_variables["SPOTIFY_CLIENT_ID"],
+            "client_secret": env_variables["SPOTIFY_CLIENT_SECRET"]
+            }
 
+    return redirect("https://accounts.spotify.com/authorize?" + urllib.parse.urlencode(data))
+
+
+@app.route("/users/logout")
+def logout(data: json_type):
+    ...
+
+
+@socketio.on("join_room")
+def on_join(data: json_type):
+    """
+
+    :param data: Data from client side
+    :return:
+    """
+    username = data.get('username', None)
+    room = data.get("room", 0)
+    if room is None:
+        app.logger.error("Room number is not provided")
+    join_room(room)
+    app.logger.info(f"{username} has entered room {room}")
+
+
+@socketio.on("leave_room")
+def on_leave(data: json_type):
+    username = data.get('username')
+    room = data.get("room")
+    if room is None:
+        app.logger.info("Room number is not provided")
+    leave_room(room)
     app.logger.info(f"{username} has left room {room}")
 
-    def run(self):
-        self.socketio.run(self.app, debug=True)
 
 
 
 if __name__ == "__main__":
-    app = Flask(__name__)
-    socketio = SocketIO(app)
-    server = Application(app, socketio)
-    server.run()
+    socketio.run(app, debug=True)
