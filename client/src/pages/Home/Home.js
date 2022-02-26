@@ -46,26 +46,14 @@ function Home() {
         ])
         setPlaylists([
             <div className="playlist" key="1">
-                <div className="row align-items-center">
-                    <div className="col-md-4">
-                        <span className="small-playlist-logo"></span>
-                        {/* <img src="image link" alt="playlist 1 logo" /> */}
-                    </div>
-                    <div className="col-md-8">
-                        <p>Playlist Name</p>
-                    </div>
-                </div>
+                <span className="small-playlist-logo"></span>
+                {/* <img src="image link" alt="playlist 1 logo" /> */}
+                <p className="playlist-name">Playlist Name</p>
             </div>,
             <div className="playlist" key="2">
-                <div className="row align-items-center">
-                    <div className="col-md-4">
-                        <span className="small-playlist-logo"></span>
-                        {/* <img src="image line 2" alt="playlist 2 logo" /> */}
-                    </div>
-                    <div className="col-md-8">
-                        <p>Playlist Name</p>
-                    </div>
-                </div>
+                <span className="small-playlist-logo"></span>
+                {/* <img src="image line 2" alt="playlist 2 logo" /> */}
+                <p className="playlist-name">Playlist Name</p>
             </div>
         ]);
     }, []);
@@ -86,6 +74,7 @@ function Home() {
             setPlayPauseIcon('play');
         }
     }
+    
 
     return (
         <div className="Home">
@@ -93,11 +82,11 @@ function Home() {
                 <h1 className="text-center">Playlist Name</h1>
                 <div className="row">
                     <div className="col-lg-4">
-                        <div className="w-75 py-2 px-3 m-auto card">
+                        <div id="group-playlists-decoration"></div>
+                        <div className="w-75 py-2 px-3 m-auto card" id='group-playlists'>
                             <span id="playlist-logo" style={{ backgroundImage: `url(${currentPlaylist})` }}></span>
-                            <h2 className="text-center">Study Group</h2>
-                            <hr />
-                            <h3 className="text-center">Playlists</h3>
+                            <h2 className="text-center" id="group-name">Study Group</h2>
+                            <h3 className="text-center" id="group-playlists-header">Playlists</h3>
                             <div className="playlists">
                                 {playlists}
                             </div>
@@ -133,7 +122,7 @@ function Home() {
                                 </div>
                                 <div className="col-md-4">
                                     <span>
-                                        <FontAwesomeIcon icon="forward-fast" />
+                                        <i className="fa-solid fa-forward-fast"></i>
                                     </span>
                                 </div>
                             </div>
