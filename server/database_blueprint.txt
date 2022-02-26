@@ -1,0 +1,11 @@
+create database "SpotifyGroup";
+create table "UserInfo"
+(
+    id       int
+        constraint userinfo_pk
+            primary key,
+    username varchar(100) not null,
+    email    varchar(100),
+    password varchar(100)
+);
+

@@ -1,0 +1,4 @@
+the server should allow the people in a group to see the same things happening at
+once. so like if someone in a group upvotes a song or presses pause on the current
+song, that should happen to everyone
+it should also keep out people who aren't in the group
