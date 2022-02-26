@@ -18,11 +18,11 @@ function Home() {
     const [currentAlbum, setCurrentAlbum] = useState('');
     const [queue, setQueue] = useState([]);
     const [playPauseIcon, setPlayPauseIcon] = useState('fa-play');
-    const [value, setValue] = React.useState(10);
+    const [value, setValue] = useState(10);
 
     const changeVolume = (event, newValue) => {
         setValue(newValue);
-      };
+    };
     
     useEffect(() => {
         // fetch().then(res => {}).catch(err => console.error(err));
@@ -117,7 +117,7 @@ function Home() {
                         <div id="player-top-container" className="row py-2 px-3 m-auto">
 
                             <div style={{ position: "relative" }}>
-                                <div class="row">
+                                <div className="row">
 
                                     <span id="album-logo" style={{ backgorundImage: `url(${currentAlbum})` }}></span>
 
@@ -138,11 +138,11 @@ function Home() {
                                 <h5>Song Album</h5>
                             </div>
 
-                            <div id="slider-row" class="row">
-                                <div id="song-name-tag" class="col-lg-6">
+                            <div id="slider-row" className="row">
+                                <div id="song-name-tag" className="col-lg-6">
                                     <h5>Name's choice</h5>
                                 </div>
-                                <div class="col-lg-6">
+                                <div className="col-lg-6">
                                     <Slider value={value} onChange={changeVolume}/>
                                 </div>
                             </div>
