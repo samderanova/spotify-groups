@@ -1,10 +1,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 
 import Home from './pages/Home/Home';
 
 import logo from './logo.svg';
 import './App.css';
+
+library.add(faCaretUp, faCaretDown);
 
 function App() {
   return (

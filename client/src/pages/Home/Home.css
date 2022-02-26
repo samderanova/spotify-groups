@@ -1,0 +1,21 @@
+#playlist-logo, .small-playlist-logo, #album-logo {
+    background-color: lightgray;
+    border-radius: 100%;
+    display: block;
+    margin: 1rem auto;
+}
+
+#playlist-logo {
+    height: 100px;
+    width: 100px;
+}
+
+.small-playlist-logo {
+    height: 50px;
+    width: 50px;
+}
+
+#album-logo {
+    height: 200px;
+    width: 200px;
+}
