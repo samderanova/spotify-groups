@@ -1,4 +1,4 @@
-#playlist-logo, .small-playlist-logo, #album-logo {
+#playlist-logo, .small-playlist-logo {
     background-color: lightgray;
     border-radius: 100%;
     display: block;
@@ -16,6 +16,22 @@
 }
 
 #album-logo {
+    background-color: lightgray;
+    border-radius: 10px;
+    display: block;
+    margin: 1rem auto;
     height: 200px;
     width: 200px;
+}
+
+.audio-controls .col-md-4 {
+    text-align: center;
+}
+
+button {
+    padding: 0 !important;
+}
+
+.audio-controls svg {
+    font-size: 2rem;
 }

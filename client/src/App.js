@@ -1,16 +1,20 @@
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretUp, faPause, faPlay, faFastForward, faFastBackward } from '@fortawesome/free-solid-svg-icons';
 
 import Home from './pages/Home/Home';
 
 import logo from './logo.svg';
 import './App.css';
 
-library.add(faCaretUp, faCaretDown);
+library.add(faCaretUp, faCaretDown, faPause, faPlay, faFastForward, faFastBackward);
 
 function App() {
+  useEffect(() => {
+    // fetch("http://localhost:5000/login")
+  }, []);
   return (
     <div className="App">
       <BrowserRouter>

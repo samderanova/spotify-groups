@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { io } from 'socket.io-client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Home.css';
 
+// const socket = io('http://localhost:5000');
+
+// io.on('connection', socket => {
+
+// })
+
 function Home() {
     const [playlists, setPlaylists] = useState([]);
-    const [currentPlaylistLogo, setCurrentPlaylistLogo] = useState('');
-    const [currentAlbumLogo, setCurrentAlbumLogo] = useState('');
-    const [currentSongTitle, setCurrentSongTitle] = useState('');
+    const [currentPlaylist, setCurrentPlaylist] = useState('');
+    const [currentAlbum, setCurrentAlbum] = useState('');
     const [queue, setQueue] = useState([]);
+    const [playPauseIcon, setPlayPauseIcon] = useState('play');
     
     useEffect(() => {
         // fetch().then(res => {}).catch(err => console.error(err));
-        setCurrentPlaylistLogo('test');
-        setCurrentAlbumLogo('test2');
-        setCurrentSongTitle('Song Title');
+        setCurrentPlaylist('test');
+        setCurrentAlbum('test2');
         setQueue([
             <div className="queue">
                 <div className="card" key="1">
@@ -63,6 +69,24 @@ function Home() {
             </div>
         ]);
     }, []);
+
+    function upvote(currentSong, event) {
+
+    }
+
+    function downvote(currentSong, event) {
+
+    }
+
+    function playPause(event) {
+        if (playPauseIcon === 'play') {
+            setPlayPauseIcon('pause');            
+        }
+        else {
+            setPlayPauseIcon('play');
+        }
+    }
+
     return (
         <div className="Home">
             <div className="container">
@@ -70,7 +94,7 @@ function Home() {
                 <div className="row">
                     <div className="col-lg-4">
                         <div className="w-75 py-2 px-3 m-auto card">
-                            <span id="playlist-logo" style={{ backgroundImage: `url(${currentPlaylistLogo})` }}></span>
+                            <span id="playlist-logo" style={{ backgroundImage: `url(${currentPlaylist})` }}></span>
                             <h2 className="text-center">Study Group</h2>
                             <hr />
                             <h3 className="text-center">Playlists</h3>
@@ -81,20 +105,35 @@ function Home() {
                     </div>
                     <div className="col-lg-4">
                         <div className="w-75 py-2 px-3 m-auto">
-                            <div className="row align-items-center gx-0">
-                                <div className="col-md-11 p-0">
-                                    <span id="album-logo" style={{ backgorundImage: `url(${currentAlbumLogo})` }}></span>
-                                </div>
-                                <div className="col-md-1 p-0">
-                                    <button type="button" className="btn btn-none"onClick={() => {}}>
+                            <div style={{ position: "relative" }}>
+                                <span id="album-logo" style={{ backgorundImage: `url(${currentAlbum})` }}></span>
+                                <div style={{ position: "absolute", left: "100%", top: "50%", transform: "translateY(-50%)"}}>
+                                    <button type="button" className="btn btn-none" onClick={e => upvote(currentAlbum, e)}>
                                         <FontAwesomeIcon icon="caret-up" />
                                     </button>
-                                    <button type="button" className="btn btn-none"onClick={() => {}}>
+                                    <button type="button" className="btn btn-none" onClick={e => downvote(currentAlbum, e)}>
                                         <FontAwesomeIcon icon="caret-down" />
                                     </button>
                                 </div>
                             </div>
-                            <h3 className="text-center">{currentSongTitle}</h3>
+                            <h3 className="text-center">{/* currentAlbum.songTitle */}Song Title</h3>
+                            <div className="row audio-controls align-items-center">
+                                <div className="col-md-4">
+                                    <span >
+                                        <FontAwesomeIcon icon="backward-fast" />
+                                    </span>
+                                </div>
+                                <div className="col-md-4">
+                                    <span className="small-playlist-logo" onClick={playPause} style={{ position: "relative" }}>
+                                        <FontAwesomeIcon icon={playPauseIcon} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} />
+                                    </span>
+                                </div>
+                                <div className="col-md-4">
+                                    <span>
+                                        <FontAwesomeIcon icon="forward-fast" />
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="col-lg-4">
