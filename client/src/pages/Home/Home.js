@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Slider from '@material-ui/core/Slider';
+import VolumeUp from '@material-ui/icons/VolumeUp';
+import VolumeDown from '@material-ui/icons/VolumeDown';
 import './Home.css';
 
 // const socket = io('http://localhost:5000');
@@ -15,6 +18,11 @@ function Home() {
     const [currentAlbum, setCurrentAlbum] = useState('');
     const [queue, setQueue] = useState([]);
     const [playPauseIcon, setPlayPauseIcon] = useState('fa-play');
+    const [value, setValue] = React.useState(10);
+
+    const changeVolume = (event, newValue) => {
+        setValue(newValue);
+      };
     
     useEffect(() => {
         // fetch().then(res => {}).catch(err => console.error(err));
@@ -87,6 +95,17 @@ function Home() {
         }
     }
 
+    // function slide(event) {
+    //     var slider = document.getElementById("myRange");
+    //     var output = document.getElementById("demo");
+    //     output.innerHTML = slider.value; // Display the default slider value
+    //     // Update the current slider value (each time you drag the slider handle)
+    //     slider.oninput = function() {
+    //     output.innerHTML = this.value;
+    //     } 
+    // }
+
+
     return (
         <div className="Home">
             <div className="container">
@@ -103,24 +122,46 @@ function Home() {
                             </div>
                         </div>
                     </div>
+
+                    {/* MAIN PLAYER */}
                     <div className="col-lg-4">
-                        <div className="w-75 py-2 px-3 m-auto">
+                        <div id="player-top-container" className="row py-2 px-3 m-auto">
+
                             <div style={{ position: "relative" }}>
-                                <span id="album-logo" style={{ backgorundImage: `url(${currentAlbum})` }}></span>
-                                <div style={{ position: "absolute", left: "100%", top: "50%", transform: "translateY(-50%)"}}>
-                                    <button type="button" className="btn btn-none" onClick={e => upvote(currentAlbum, e)}>
-                                        <FontAwesomeIcon icon="caret-up" />
-                                    </button>
-                                    <button type="button" className="btn btn-none" onClick={e => downvote(currentAlbum, e)}>
-                                        <FontAwesomeIcon icon="caret-down" />
-                                    </button>
+                                <div class="row">
+
+                                    <span id="album-logo" style={{ backgorundImage: `url(${currentAlbum})` }}></span>
+
+                                    <div style={{ position: "absolute", left: "100%", top: "50%", transform: "translateY(-50%)"}}>
+                                        <button className="btn" onClick={e => upvote(currentAlbum, e)}>
+                                            <i className="vote fa-solid fa-caret-up"></i>
+                                        </button>
+                                        <button className="btn" onClick={e => downvote(currentAlbum, e)}>
+                                            <i className="vote fa-solid fa-caret-down"></i>
+                                        </button>
+                                    </div>
+        
                                 </div>
                             </div>
-                            <div className="text-center">
-                                <h3>{/* currentAlbum.songTitle */}Song Title</h3>
-                                <h4>Song Album</h4>
+
+                            <div id="song-details" className="text-center">
+                                <h4>{/* currentAlbum.songTitle */}Song Title</h4>
+                                <h5>Song Album</h5>
                             </div>
-                            <div className="row audio-controls align-items-center">
+
+                            <div id="slider-row" class="row">
+                                <div id="song-name-tag" class="col-lg-6">
+                                    <h5>Name's choice</h5>
+                                </div>
+                                <div class="col-lg-6">
+                                    <Slider value={value} onChange={changeVolume}/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="player-bottom-container" className="w-75 py-2 px-3 m-auto">
+                            <div id="player-buttons" className="row audio-controls align-items-center">
                                 <div className="col-md-4">
                                     <span>
                                         <i className="fa-solid fa-backward-fast"></i>
@@ -133,12 +174,20 @@ function Home() {
                                 </div>
                                 <div className="col-md-4">
                                     <span>
-                                        <FontAwesomeIcon icon="forward-fast" />
+                                        <i className="fa-solid fa-forward-fast"></i>
                                     </span>
                                 </div>
                             </div>
                         </div>
+
+                        <div id="queue-button-div" className="row align-items-center">
+                            <button id="queue-button">Queue song</button>
+                        </div>
+
                     </div>
+
+
+
                     <div className="col-lg-4">
                         <div className="w-75 py-2 px-3 mb-5 m-auto card">
                             <h2>Queue:</h2>
@@ -159,6 +208,7 @@ function Home() {
             </div>
         </div>
     )
+
 }
 
 export default Home;

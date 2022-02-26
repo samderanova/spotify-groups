@@ -13,6 +13,22 @@
 .small-playlist-logo {
     height: 50px;
     width: 50px;
+    background-color:#f3f3f3;
+}
+
+#player-top-container {
+    background-color:rgb(184, 184, 184);
+    border-radius:30px;
+}
+
+#song-details {
+    background-color:lightgrey;
+    border-radius:30px;
+}
+
+#player-buttons {
+    background-color:lightgrey;
+    border-radius:30px;
 }
 
 #album-logo {
@@ -28,10 +44,45 @@
     text-align: center;
 }
 
+
+#queue-button {
+	background-color:#9b9b9b;
+	border-radius:28px;
+	border:1px solid #afafaf;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:21px;
+	padding:16px 42px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #646464;
+}
+#queue-button:hover {
+	background-color:#bebebe;
+}
+#queue-button:active {
+	position:relative;
+	top:1px;
+}
+
+#slider-row {
+    padding-top:15px;
+}
+
+#song-name-tag {
+    background: #A3A3A3;
+    border-radius: 0px 0px 0px 30px;
+}
+
 .Home button {
     padding: 0 !important;
 }
 
 .audio-controls i {
     font-size: 2rem;
+}
+
+.vote {
+    font-size:30px;
 }
