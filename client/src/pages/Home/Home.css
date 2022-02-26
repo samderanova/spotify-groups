@@ -71,6 +71,31 @@
 .small-playlist-logo {
     height: 50px;
     width: 50px;
+    background-color:#f3f3f3;
+}
+
+#player-top-container {
+    background-color:rgb(184, 184, 184);
+    border-radius:30px;
+}
+
+#song-details {
+    background-color:lightgrey;
+    border-radius:30px;
+}
+
+#player-buttons {
+    background-color:lightgrey;
+    border-radius:30px;
+    margin: 14px 27px;
+    background: linear-gradient(0deg, #E9E9E9, #E9E9E9), #E9E9E9;
+}
+
+.playlist-name {
+    margin-top: 27px;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
 }
 
 
