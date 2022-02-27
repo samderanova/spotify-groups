@@ -1,0 +1,21 @@
+:root {
+    --color1: #464C89;
+    --color2: #CA95D7; 
+    --color3: #EFD8EB;
+    --color4: #BEE1E6;
+    --color5: #C9FBD4;
+    --color6: #4B8581;
+    --color7: #FFFBEF; 
+}
+
+#navbar {
+    background-color: var(--color4) !important;
+}
+
+#site-name, #create-room-nav, #basic-nav-dropdown, #navbar button {
+    color: var(--color1) !important;
+}
+
+#create-room-nav {
+    text-align: center;
+}
