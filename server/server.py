@@ -7,6 +7,7 @@ from typing import Any, Dict
 from secret_stuff import env_variables
 import util
 import requests
+import urllib.request
 
 json_type = Dict[str, object]
 
@@ -21,13 +22,12 @@ def home():
     return jsonify(text="Home page")
 
 
-@app.route("/user_data", methods=["POST"])
+@app.route("/user_data", methods=["GET"])
 def get_user_data():
-    headers = {
-        "Authorization": flask.request.args.get("access_token")
-    }
-    response = requests.get("https://api.spotify.com/v1/me", headers=headers)
-    return response.json()
+    request = urllib.request.Request("https://api.spotify.com/v1/me")
+    request.add_header("Authorization", flask.request.headers["Authorization"])
+    response = urllib.request.urlopen(request)
+    return response.read()
 
 
 @app.route("/users/<method>", methods=["GET"])
