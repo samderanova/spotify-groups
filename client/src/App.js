@@ -29,16 +29,7 @@ function App() {
 
 
   async function loginOrRegisterUser(userData, tokens) {
-    const randomStr = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    let authString = "";
-
-    for (let i = 0; i < 32; i++) {
-        authString += randomStr[Math.floor(Math.random() * randomStr.length)];
-    }
-
-    if (!localStorage.getItem("string")) {
-      localStorage.setItem("string", authString)
-    }
+    localStorage.setItem("string", userData["id"]);
     localStorage.setItem("loggedIn", true);
 
     fetch ('http://localhost:5000/login_user', {
@@ -52,7 +43,6 @@ function App() {
         "display_name": userData["display_name"],
         "access_token": tokens["access_token"],
         "refresh_token": tokens["refresh_token"],
-        "auth_string": localStorage.getItem("string", authString)
       })
     });
   }
@@ -82,7 +72,7 @@ function App() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        "auth_string": localStorage.getItem("string")
+        "user_id": localStorage.getItem("string")
       })
     });
     return userDataDB.json();

@@ -43,7 +43,6 @@ def login_user():
             "user_id": request_data.get("user_id"), 
             "display_name": request_data.get("display_name"),
             "access_token": request_data.get("access_token"),
-            "auth_string": request_data.get("auth_string"),
             "refresh_token": request_data.get("refresh_token"),
             "logged_in": True
         })
@@ -54,8 +53,7 @@ def login_user():
 @app.route("/get_user_from_db", methods=["POST"])
 def get_user():
     user_collection = database["user_info"]
-    user_doc = user_collection.find_one({"auth_string": flask.request.json.get("auth_string")})
-    app.logger.info(user_doc)
+    user_doc = user_collection.find_one({"user_id": flask.request.json.get("user_id")})
     if user_doc:
         user_doc["_id"] = str(user_doc["_id"])
         return user_doc
