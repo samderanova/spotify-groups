@@ -1,11 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, redirect
+from flask import Flask, jsonify
 from flask_socketio import SocketIO, join_room, leave_room, emit, send
 from flask_cors import CORS, cross_origin
+import flask
+from spotify_api_objects import client_credentials, spotify_oauth
 from typing import Any, Dict
 from secret_stuff import env_variables
 import util
-import urllib
-import json
+import requests
+import urllib.request
 
 json_type = Dict[str, object]
 
@@ -17,31 +19,35 @@ socketio = SocketIO(app)
 
 @app.route("/", methods=["GET"])
 def home():
-    ...
+    return jsonify(text="Home page")
 
 
-@app.route("/users/register", methods=["GET", "POST"])
-def register(data: json_type):
-    ...
+@app.route("/user_data", methods=["GET"])
+def get_user_data():
+    request = urllib.request.Request("https://api.spotify.com/v1/me")
+    request.add_header("Authorization", flask.request.headers["Authorization"])
+    response = urllib.request.urlopen(request)
+    return response.read()
 
 
-@app.route("/users/login", methods=["GET"])
+@app.route("/users/<method>", methods=["GET"])
 @cross_origin()
-def login():
-    data = {"state": util.id_generator(size=8),
-            "response_type": 'code',
-            "scope": "user-read-private user-read-email",
-            "client_id": env_variables["SPOTIFY_CLIENT_ID"],
-            "client_secret": env_variables["SPOTIFY_CLIENT_SECRET"],
-            "redirect_uri": "http://localhost:3000",
-            }
+def functions(method: str):
+    if method == "login":
+        return jsonify(url=spotify_oauth.get_authorize_url(state=util.id_generator(size=8)))
+    elif method == "register":
+        ...
+    elif method == "get_token":
+        auth_code = flask.request.args.get("code")
+        access_token = spotify_oauth.get_access_token(auth_code)
+        return jsonify(access_token)
+    elif method == "refresh_token":
+        refresh_token = flask.request.args.get("refresh_token")
+        new_token = spotify_oauth.refresh_access_token(refresh_token)
+        return jsonify(new_token)
+    elif method == "logout":
+        ...
 
-    return jsonify(url="https://accounts.spotify.com/authorize?" + urllib.parse.urlencode(data))
-
-
-@app.route("/users/logout")
-def logout(data: json_type):
-    ...
 
 
 @socketio.on("join_room")

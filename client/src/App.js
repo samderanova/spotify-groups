@@ -12,22 +12,53 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   function login(e) {
-    fetch("http://localhost:5000/users/login").then(res => res.json().then(data => {
-      console.log(data["url"]);
-      window.location.href = data["url"]
-    }));
-    const urlParams = new URLSearchParams(window.location);
-    const code = urlParams.get("code");
-    const state = urlParams.get("code");
-    
-
-    setIsLoggedIn(true);
+    fetch("http://localhost:5000/users/login")
+      .then(res => res.json()
+      .then(data => {
+        console.log(data["url"]);
+        window.location.href = data["url"]
+      }));
   }
 
   function logout(e) {
     setIsLoggedIn(false);
+    window.location.href = '/';
   }
 
+  useEffect(() => {
+    const paramString = window.location.href.split('?')[1];
+    const urlParams = new URLSearchParams(paramString);
+    const code = urlParams.get("code");
+    const state = urlParams.get("state");
+
+    if (code && state) {
+
+      fetch('http://localhost:5000/users/get_token?' + paramString).then(res => {
+        res.json().then(data => {
+          
+          console.log(data);
+
+          if (data)
+          {
+            console.log(data["access_token"]);
+            fetch('http://localhost:5000/user_data', {
+              method: "GET",
+              headers: {
+                "Authorization" : "Bearer " + data["access_token"],
+              }
+            }).then(res => {
+              res.json().then(data => {
+                console.log(data);
+              })
+            })
+          }
+        });
+      });
+
+      setIsLoggedIn(true);
+    }
+
+  }, []);
   return (
     <div className="App">
       <BrowserRouter>

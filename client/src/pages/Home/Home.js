@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Slider from '@material-ui/core/Slider';
 import VolumeUp from '@material-ui/icons/VolumeUp';
 import VolumeDown from '@material-ui/icons/VolumeDown';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 import './Home.css';
 
 // const socket = io('http://localhost:5000');
@@ -18,11 +20,11 @@ function Home() {
     const [currentAlbum, setCurrentAlbum] = useState('');
     const [queue, setQueue] = useState([]);
     const [playPauseIcon, setPlayPauseIcon] = useState('fa-play');
-    const [value, setValue] = React.useState(10);
+    const [value, setValue] = useState(10);
 
     const changeVolume = (event, newValue) => {
         setValue(newValue);
-      };
+    };
     
     useEffect(() => {
         // fetch().then(res => {}).catch(err => console.error(err));
@@ -167,11 +169,42 @@ function Home() {
                                     </span>
                                 </div>
                             </div>
+
+                            <div id="queue-button-div" className="row align-items-center">
+                                <Popup trigger={<button id="queue-button">Queue song</button>}
+                                position="top center">
+                                <div id="queue-button-popup">
+                                    <h3 id="your-playlists">Your playlists</h3>
+
+                                    <Popup trigger={<button class="playlist-button">Playlist name</button>}
+                                    position="right center">
+                                        <div class="songs-popup">
+                                            <h5 class="playlist-songs">Playlist name songs</h5>
+                                            {/* onclick function for these buttons will add them to the queue */}
+                                            <button class="song-button">Song name</button>
+                                            <button class="song-button">Song name</button>
+                                            <button class="song-button">Song name</button>
+                                            <button class="song-button">Song name</button>
+                                            <button class="song-button">Song name</button>
+                                            <button class="song-button">Song name</button>
+                                            <button class="song-button">Song name</button>
+                                            <button class="song-button">Song name</button>
+                                        </div>
+                                    </Popup>
+
+                                    <button class="playlist-button">Playlist name</button>
+                                    <button class="playlist-button">Playlist name</button>
+                                    <button class="playlist-button">Playlist name</button>
+                                    <button class="playlist-button">Playlist name</button>
+                                </div>
+                                </Popup>
+
+                                
+
+                            </div>
+
                         </div>
 
-                        <div id="queue-button-div" className="row align-items-center">
-                            <button id="queue-button">Queue song</button>
-                        </div>
 
                     </div>
 
@@ -222,6 +255,16 @@ function Home() {
                             </div>
                         </div>
                     </div>
+
+
+                    {/* <div id="queue-popup">
+                        <div class="col-lg-1"></div>
+
+                        <div class="col-lg-10">Your playlists</div>
+
+                        <div class="col-lg-1"></div>
+                    </div> */}
+
                 </div>
                 <div id="home-bottom-spacing"></div>
             </div>
