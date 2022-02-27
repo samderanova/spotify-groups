@@ -155,3 +155,35 @@
 .vote {
     font-size:30px;
 }
+
+.playlist-button {
+    border-radius: 30px;
+    padding:3px;
+}
+
+/* border radius won't work? */
+#your-playlists {
+    background:grey;
+    color:white;
+    border-radius:30;
+    text-align:center;
+}
+
+.playlist-songs{
+    background:grey;
+    color:white;
+    border-radius:30;
+    text-align:center;
+}
+
+/* border radius and flex won't work? */
+.popup-content {
+    border-radius: 30px;
+    background-color:#cfcfcf;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+
