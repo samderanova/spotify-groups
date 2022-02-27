@@ -641,7 +641,6 @@
         margin: 0 10px 15px 10px;
     }
     
-    /* ----------------------------- */
     .playlist {
         display: flex;
         flex-direction: row;
@@ -650,7 +649,6 @@
         height: 77px;
         border-bottom: 2px solid #7C7C7C;
     }
-    
     
     .playlist:last-child {
         border-bottom: none;
