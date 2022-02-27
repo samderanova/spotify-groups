@@ -106,6 +106,14 @@ function Home() {
         }
     }
 
+    function queueleft(queue, event) {
+
+    }
+
+    function queueright(queue, event) {
+
+    }
+
     function setPalette(num) {
         paletteNum = num;
         var r = document.querySelector(':root');
@@ -134,214 +142,212 @@ function Home() {
 
     return (
         <div id="body-container" className="Home">
-            <div id="body-container" className="Home">
-                <div id="home-top-spacing" className="container"></div>
-                <div className="row">
-                    <div className="col-lg-4">
-                        <div className="widget-decoration" id="group-playlist-widget-decor"></div>
-                        <div id="leftmostBox" className="w-75 py-2 px-3 m-auto gen-widget">
-                            <span id="playlist-logo" style={{ backgroundImage: `url(${currentPlaylist})` }}></span>
-                            <h2 className="text-center" id="group-name">Study Group</h2>
-                            <h3 className="text-center" id="group-playlists-header">Playlists</h3>
-                            <div className="playlists">
-                                {playlists}
-                            </div>
+            <div id="home-top-spacing" className="container"></div>
+            <div className="row">
+                <div className="col-lg-4">
+                    <div className="widget-decoration" id="group-playlist-widget-decor"></div>
+                    <div id="leftmostBox" className="w-75 py-2 px-3 m-auto gen-widget">
+                        <span id="playlist-logo" style={{ backgroundImage: `url(${currentPlaylist})` }}></span>
+                        <h2 className="text-center" id="group-name">Study Group</h2>
+                        <h3 className="text-center" id="group-playlists-header">Playlists</h3>
+                        <div className="playlists">
+                            {playlists}
                         </div>
                     </div>
-                    
-                    {/* MAIN PLAYER */}
-                    <div className="col-lg-4">
-                        <div className="widget-decoration" id="player-widget-decor">
-                            <p id="playlist-name-title">Playlist Name</p>
-                        </div>
-                        <div id="player-top-container" className="row py-2 px-3 m-auto">
+                </div>
+                
+                {/* MAIN PLAYER */}
+                <div className="col-lg-4">
+                    <div className="widget-decoration" id="player-widget-decor">
+                        <p id="playlist-name-title">Playlist Name</p>
+                    </div>
+                    <div id="player-top-container" className="row py-2 px-3 m-auto">
 
-                            <div style={{ position: "relative" }}>
-                                <div className="row" id="album-logo-vote">
+                        <div style={{ position: "relative" }}>
+                            <div className="row" id="album-logo-vote">
 
-                                    <div class="col-lg-3"></div>
+                                <div class="col-lg-3"></div>
 
-                                    <div class="col-lg-6">
-                                        <span id="album-logo" style={{ backgroundImage: `url(${currentAlbum})` }}></span>
+                                <div class="col-lg-6">
+                                    <span id="album-logo" style={{ backgroundImage: `url(${currentAlbum})` }}></span>
+                                </div>
+
+                                <div class="col-lg-3">                                     
+                                    <div id="vote-btns">
+                                        <button id="upvote-btn" className="btn" onClick={e => upvote(currentAlbum, e)}>
+                                            <i className="vote fa-solid fa-caret-up"></i>
+                                        </button>
+                                        <button id="downvote-btn" className="btn" onClick={e => downvote(currentAlbum, e)}>
+                                            <i className="vote fa-solid fa-caret-down"></i>
+                                        </button>
                                     </div>
-
-                                    <div class="col-lg-3">                                     
-                                        <div id="vote-btns">
-                                            <button id="upvote-btn" className="btn" onClick={e => upvote(currentAlbum, e)}>
-                                                <i className="vote fa-solid fa-caret-up"></i>
-                                            </button>
-                                            <button id="downvote-btn" className="btn" onClick={e => downvote(currentAlbum, e)}>
-                                                <i className="vote fa-solid fa-caret-down"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-        
                                 </div>
+                                
+    
                             </div>
-
-                            <div id="song-details" className="text-center">
-                                <h4>{/* currentAlbum.songTitle */}Song Title</h4>
-                                <h5>Song Album</h5>
-                            </div>
-
-                            <div id="slider-row" className="row">
-                                <div id="song-name-tag" className="col-lg-6">
-                                    <h5>Name's choice</h5>
-                                </div>
-                                <div className="col-lg-6" id="vol-slider-div">
-                                    <Slider id="vol-slider" value={value} onChange={changeVolume}/>
-                                </div>
-                            </div>
-
                         </div>
 
-                        <div id="player-bottom-container" className="w-75 py-2 px-3 m-auto">
-                            <div id="player-buttons" className="row audio-controls align-items-center">
-                                <div className="col-md-4">
-                                    <span>
-                                        <i id="back-btn" className="fa-solid fa-backward-fast"></i>
-                                    </span>
-                                </div>
-                                <div className="col-md-4">
-                                    <span className="small-playlist-logo" onClick={playPause} style={{ position: "relative" }} id="play-pause-btn">
-                                        <i className={`fa-solid ${playPauseIcon}`} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}></i>
-                                    </span>
-                                </div>
-                                <div className="col-md-4">
-                                    <span>
-                                        <i id="forward-btn" className="fa-solid fa-forward-fast"></i>
-                                    </span>
-                                </div>
+                        <div id="song-details" className="text-center">
+                            <h4>{/* currentAlbum.songTitle */}Song Title</h4>
+                            <h5>Song Album</h5>
+                        </div>
+
+                        <div id="slider-row" className="row">
+                            <div id="song-name-tag" className="col-lg-6">
+                                <h5>Name's choice</h5>
                             </div>
+                            <div className="col-lg-6" id="vol-slider-div">
+                                <Slider id="vol-slider" value={value} onChange={changeVolume}/>
+                            </div>
+                        </div>
 
-                            <div id="queue-button-div" className="row align-items-center">
-                                <Popup trigger={<button id="queue-button">Queue song</button>}
-                                position="top center">
-                                <div id="queue-button-popup">
-                                    <h3 class="popup-header">Your Playlists</h3>
+                    </div>
 
-                                    <Popup trigger={<button class="popup-option">Playlist name</button>}
-                                    position="right center">
-                                        <div class="songs-popup">
-                                            <h5 class="popup-header">Playlist name songs</h5>
-                                            {/* onclick function for these buttons will add them to the queue */}
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                        </div>
-                                    </Popup>
+                    <div id="player-bottom-container" className="w-75 py-2 px-3 m-auto">
+                        <div id="player-buttons" className="row audio-controls align-items-center">
+                            <div className="col-md-4">
+                                <span>
+                                    <i id="back-btn" className="fa-solid fa-backward-fast"></i>
+                                </span>
+                            </div>
+                            <div className="col-md-4">
+                                <span className="small-playlist-logo" onClick={playPause} style={{ position: "relative" }} id="play-pause-btn">
+                                    <i className={`fa-solid ${playPauseIcon}`} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}></i>
+                                </span>
+                            </div>
+                            <div className="col-md-4">
+                                <span>
+                                    <i id="forward-btn" className="fa-solid fa-forward-fast"></i>
+                                </span>
+                            </div>
+                        </div>
 
-                                    <Popup trigger={<button class="popup-option">Playlist name</button>}
-                                    position="right center">
-                                        <div class="songs-popup">
-                                            <h5 class="popup-header">Playlist name songs</h5>
-                                            {/* onclick function for these buttons will add them to the queue */}
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                        </div>
-                                    </Popup>
+                        <div id="queue-button-div" className="row align-items-center">
+                            <Popup trigger={<button id="queue-button">Queue song</button>}
+                            position="top center">
+                            <div id="queue-button-popup">
+                                <h3 class="popup-header">Your Playlists</h3>
 
-                                    <Popup trigger={<button class="popup-option">Playlist name</button>}
-                                    position="right center">
-                                        <div class="songs-popup">
-                                            <h5 class="popup-header">Playlist name songs</h5>
-                                            {/* onclick function for these buttons will add them to the queue */}
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                            <button class="popup-option">Song name</button>
-                                        </div>
-                                    </Popup>
+                                <Popup trigger={<button class="popup-option">Playlist name</button>}
+                                position="right center">
+                                    <div class="songs-popup">
+                                        <h5 class="popup-header">Playlist name songs</h5>
+                                        {/* onclick function for these buttons will add them to the queue */}
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                    </div>
+                                </Popup>
 
-                                    
-                                </div>
+                                <Popup trigger={<button class="popup-option">Playlist name</button>}
+                                position="right center">
+                                    <div class="songs-popup">
+                                        <h5 class="popup-header">Playlist name songs</h5>
+                                        {/* onclick function for these buttons will add them to the queue */}
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                    </div>
+                                </Popup>
+
+                                <Popup trigger={<button class="popup-option">Playlist name</button>}
+                                position="right center">
+                                    <div class="songs-popup">
+                                        <h5 class="popup-header">Playlist name songs</h5>
+                                        {/* onclick function for these buttons will add them to the queue */}
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                        <button class="popup-option">Song name</button>
+                                    </div>
                                 </Popup>
 
                                 
-
                             </div>
+                            </Popup>
+
+                            
 
                         </div>
-
 
                     </div>
 
 
+                </div>
 
-                    <div className="col-lg-4">
-                        <div className="widget-decoration" id="queue-widget-decor">
-                            <p id="queue-name">Queue</p>
-                        </div>
-                        <div id="queue-box" className="w-75 py-2 px-3 mb-5 m-auto  gen-widget">
-                            {queue}
-                            <div id="queue-bottom-bar">
-                                <div id="switch-queue-pages">
-                                    <button className="btn" onClick={e => upvote(currentAlbum, e)}>
-                                        <i id="queue-right" className="switch-queue fa-solid fa-caret-up"></i>
-                                    </button>
-                                    <button className="btn" onClick={e => downvote(currentAlbum, e)}>
-                                        <i id="queue-left" className="switch-queue fa-solid fa-caret-down"></i>
-                                    </button>
-                                </div>
+
+
+                <div className="col-lg-4">
+                    <div className="widget-decoration" id="queue-widget-decor">
+                        <p id="queue-name">Queue</p>
+                    </div>
+                    <div id="queue-box" className="w-75 py-2 px-3 mb-5 m-auto  gen-widget">
+                        {queue}
+                        <div id="queue-bottom-bar">
+                            <div id="switch-queue-pages">
+                                <button className="btn" onClick={e => queueleft(queue, e)}>
+                                    <i id="queue-right" className="switch-queue fa-solid fa-caret-up"></i>
+                                </button>
+                                <button className="btn" onClick={e => queueright(queue, e)}>
+                                    <i id="queue-left" className="switch-queue fa-solid fa-caret-down"></i>
+                                </button>
                             </div>
                         </div>
-                        <div className="widget-decoration" id="listening-widget-decor">
-                            <p id="listening-name">Listening Now</p>
-                        </div>
-                        <div id="listenerBox" className="w-75 py-2 px-3 m-auto gen-widget">
-                            <div id="listening-people" >
-                                <div class="listening-person">
-                                    <span className="small-playlist-logo"></span>
-                                    <p className="person-name">Person 1</p>
-                                </div>
-                                <div class="listening-person">
+                    </div>
+                    <div className="widget-decoration" id="listening-widget-decor">
+                        <p id="listening-name">Listening Now</p>
+                    </div>
+                    <div id="listenerBox" className="w-75 py-2 px-3 m-auto gen-widget">
+                        <div id="listening-people" >
+                            <div class="listening-person">
                                 <span className="small-playlist-logo"></span>
-                                    <p className="person-name">Person 2</p>
-                                </div>
-                                <div class="listening-person">
-                                <span className="small-playlist-logo"></span>
-                                    <p className="person-name">Person 3</p>
-                                </div>
-                                <div class="listening-person">
-                                <span className="small-playlist-logo"></span>
-                                    <p className="person-name">Person 4</p>
-                                </div>
+                                <p className="person-name">Person 1</p>
+                            </div>
+                            <div class="listening-person">
+                            <span className="small-playlist-logo"></span>
+                                <p className="person-name">Person 2</p>
+                            </div>
+                            <div class="listening-person">
+                            <span className="small-playlist-logo"></span>
+                                <p className="person-name">Person 3</p>
+                            </div>
+                            <div class="listening-person">
+                            <span className="small-playlist-logo"></span>
+                                <p className="person-name">Person 4</p>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div id="themes-row" className="row">
-                    <Popup trigger={<button id="theme-button">Themes</button>} position="top center">
-                            <div class="songs-popup">
-                                <button class="theme-option" onClick={e => setPalette(1, e)}>Dreamy</button>
-                                <button class="theme-option" onClick={e => setPalette(2, e)}>Berry Bush</button>
-                                <button class="theme-option" onClick={e => setPalette(3, e)}>Melon</button>
-                                <button class="theme-option" onClick={e => setPalette(4, e)}>Dusk</button>
-                                <button class="theme-option" onClick={e => setPalette(5, e)}>Candy</button>
-                                <button class="theme-option" onClick={e => setPalette(6, e)}>Terracotta</button>
-                            </div>
-                    </Popup>
-                </div>
-
-                <div id="very-bottom-spacing"></div>
             </div>
+
+            <div id="themes-row" className="row">
+                <Popup trigger={<button id="theme-button">Themes</button>} position="top center">
+                        <div class="songs-popup">
+                            <button class="theme-option" onClick={e => setPalette(1, e)}>Dreamy</button>
+                            <button class="theme-option" onClick={e => setPalette(2, e)}>Berry Bush</button>
+                            <button class="theme-option" onClick={e => setPalette(3, e)}>Melon</button>
+                            <button class="theme-option" onClick={e => setPalette(4, e)}>Dusk</button>
+                            <button class="theme-option" onClick={e => setPalette(5, e)}>Candy</button>
+                            <button class="theme-option" onClick={e => setPalette(6, e)}>Terracotta</button>
+                        </div>
+                </Popup>
+            </div>
+
+            <div id="very-bottom-spacing"></div>
         </div>
     )
 
