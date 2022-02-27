@@ -14,9 +14,9 @@ json_type = Dict[str, object]
 app = Flask(__name__)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins=["http://localhost:3000"])
 db_object = pymongo.MongoClient(env_variables["MONGO_URL"])
-database = db_object.get_database("SpotiGroup")
+database = db_object["SpotiGroup"]
 
 @app.route("/", methods=["GET"])
 def home():
@@ -29,6 +29,27 @@ def get_user_data():
     request.add_header("Authorization", flask.request.headers["Authorization"])
     response = urllib.request.urlopen(request)
     return response.read()
+
+
+@app.route("/login_user", methods=["POST"])
+def login_user():
+    user_collection = database["user_info"]
+    user_doc = user_collection.find_one({"user_id": flask.request.args.get("user_id")})
+    if not user_doc:
+        user_doc.insert_one({
+            "user_id": flask.request.args.get("user_id"), 
+            "access_token": flask.request.args.get("access_token"),
+            "refresh_token": flask.request.args.get("refresh_token"),
+            "logged_in": True
+        })
+    else:
+        user_doc.update({"_id": user_doc["_id"]}, {"$set": {"logged_in": True}})
+    ...
+
+@app.route("/logout_user", methods=["POST"])
+def login_user():
+    user_collection = database["user_info"]
+    user_doc = user_collection.find_one_and_update({""})
 
 
 @app.route("/users/<method>", methods=["GET"])
@@ -50,8 +71,9 @@ def functions(method: str):
 
 @socketio.on("create_room")
 def on_create(data: json_type):
-    room_collection = db_object.get_collection("room_list")
-    room_collection.insert()
+    room_collection = database["room_list"]
+    # room_collection.insert_one(data)
+
 
 @socketio.on("join_room")
 def on_join(data: json_type):
