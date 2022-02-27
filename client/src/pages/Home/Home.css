@@ -1,3 +1,8 @@
+
+:root {
+    --color1: #464C89; 
+}
+
 #home-top-spacing, #home-bottom-spacing {
     padding-bottom: 3%;
 }

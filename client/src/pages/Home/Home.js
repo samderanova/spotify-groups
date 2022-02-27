@@ -22,6 +22,22 @@ function Home() {
     const [playPauseIcon, setPlayPauseIcon] = useState('fa-play');
     const [value, setValue] = useState(10);
 
+    var r = document.querySelector(':root');
+    var rs = getComputedStyle(r);
+    r.style.setProperty('--color1', 'red');
+
+    const colorDict = {1: {'color1':'#464C89', 'color2': '#CA95D7', 'color3': '#EFD8EB', 'color4': '#BEE1E6',
+                            'color5': '#C9FBD4', 'color6': '#4B8581', 'color7': '#FFFBEF'}};
+
+    var paletteNum = 1;
+    var currColor1 = colorDict[paletteNum]['color1'];
+    var currColor2 = colorDict[paletteNum]['color2'];
+    var currColor3 = colorDict[paletteNum]['color3'];
+    var currColor4 = colorDict[paletteNum]['color4'];
+    var currColor5 = colorDict[paletteNum]['color5'];
+    var currColor6 = colorDict[paletteNum]['color6'];
+    var currColor7 = colorDict[paletteNum]['color7'];
+
     const changeVolume = (event, newValue) => {
         setValue(newValue);
     };
@@ -80,17 +96,8 @@ function Home() {
             setPlayPauseIcon('play');
         }
     }
-    
 
-    // function slide(event) {
-    //     var slider = document.getElementById("myRange");
-    //     var output = document.getElementById("demo");
-    //     output.innerHTML = slider.value; // Display the default slider value
-    //     // Update the current slider value (each time you drag the slider handle)
-    //     slider.oninput = function() {
-    //     output.innerHTML = this.value;
-    //     } 
-    // }
+
 
 
     return (
@@ -109,7 +116,7 @@ function Home() {
                             </div>
                         </div>
                     </div>
-
+                    
                     {/* MAIN PLAYER */}
                     <div className="col-lg-4">
                         <div className="widget-decoration" id="player-widget-decor">
@@ -120,7 +127,7 @@ function Home() {
                             <div style={{ position: "relative" }}>
                                 <div className="row" id="album-logo-vote">
 
-                                    <span id="album-logo" style={{ backgorundImage: `url(${currentAlbum})` }}></span>
+                                    <span id="album-logo" style={{ backgroundImage: `url(${currentAlbum})` }}></span>
 
                                     {/* <div style={{ position: "absolute", left: "100%", top: "50%", transform: "translateY(-50%)"}}> */}
                                     <div id="vote-btns">
@@ -231,7 +238,7 @@ function Home() {
                             <p id="listening-name">Listening Now</p>
                         </div>
                         <div className="w-75 py-2 px-3 m-auto gen-widget">
-                            <div id="listening-people">
+                            <div id="listening-people" >
                                 <div class="listening-person">
                                     <span className="small-playlist-logo"></span>
                                     <p className="person-name">Person 1</p>
@@ -252,14 +259,6 @@ function Home() {
                         </div>
                     </div>
 
-
-                    {/* <div id="queue-popup">
-                        <div class="col-lg-1"></div>
-
-                        <div class="col-lg-10">Your playlists</div>
-
-                        <div class="col-lg-1"></div>
-                    </div> */}
 
                 </div>
                 <div id="home-bottom-spacing"></div>
