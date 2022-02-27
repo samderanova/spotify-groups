@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask_socketio import SocketIO, join_room, leave_room, emit, send
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 import flask
 from spotify_api_objects import client_credentials, spotify_oauth
 from typing import Any, Dict
@@ -12,7 +12,7 @@ import pymongo
 json_type = Dict[str, object]
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["http://localhost:3000"])
 app.config['CORS_HEADERS'] = 'Content-Type'
 socketio = SocketIO(app, cors_allowed_origins=["http://localhost:3000"])
 db_object = pymongo.MongoClient(env_variables["MONGO_URL"])
@@ -27,34 +27,48 @@ def home():
 def get_user_data():
     request = urllib.request.Request("https://api.spotify.com/v1/me")
     request.add_header("Authorization", flask.request.headers["Authorization"])
-    app.logger.info(flask.request.headers["Authorization"])
     response = urllib.request.urlopen(request)
     return response.read()
 
 
 @app.route("/login_user", methods=["POST"])
 def login_user():
+    request_data = flask.request.json
     user_collection = database["user_info"]
-    user_doc = user_collection.find_one({"user_id": flask.request.args.get("user_id")})
+    user_doc = user_collection.find_one({"user_id": request_data.get("user_id")})
     if not user_doc:
-        user_doc.insert_one({
-            "user_id": flask.request.args.get("user_id"), 
-            "access_token": flask.request.args.get("access_token"),
-            "auth_string": flask.request.args.get("auth_string"),
-            "refresh_token": flask.request.args.get("refresh_token"),
+        user_collection.insert_one({
+            "user_id": request_data.get("user_id"), 
+            "display_name": request_data.get("display_name"),
+            "access_token": request_data.get("access_token"),
+            "auth_string": request_data.get("auth_string"),
+            "refresh_token": request_data.get("refresh_token"),
             "logged_in": True
         })
     else:
         user_doc.update({"_id": user_doc["_id"]}, {"$set": {"logged_in": True}})
+    return "200, OK"
+
+@app.route("/get_user_from_db", methods=["POST"])
+def get_user():
+    user_collection = database["user_info"]
+    user_doc = user_collection.find_one({"auth_string": flask.request.json.get("auth_string")})
+    app.logger.info(user_doc)
+    if user_doc:
+        user_doc["_id"] = str(user_doc["_id"])
+        return user_doc
+    return "404"
+
 
 @app.route("/logout_user", methods=["POST"])
 def logout_user():
+    request_data = flask.request.json
     user_collection = database["user_info"]
-    user_doc = user_collection.find_one_and_update({"auth_string"})
+    user_collection.find_one_and_update({"auth_string": request_data.get("auth_string")}, {"$set": {"logged_in": False}})
+    return "200"
 
 
 @app.route("/users/<method>", methods=["GET"])
-@cross_origin()
 def functions(method: str):
     if method == "login":
         return jsonify(url=spotify_oauth.get_authorize_url(state=util.id_generator(size=8)))

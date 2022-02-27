@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 
 import Home from './pages/Home/Home';
 import Room from './pages/Room/Room';
-import UserContext from './components/UserContext';
 
 import logo from './logo.svg';
 import './App.css';
@@ -24,6 +23,7 @@ function App() {
 
   function logout(e) {
     setIsLoggedIn(false);
+    localStorage.setItem("loggedIn", false);
     window.location.href = '/';
   }
 
@@ -36,20 +36,25 @@ function App() {
         authString += randomStr[Math.floor(Math.random() * randomStr.length)];
     }
 
-    document.cookie = ""
+    if (!localStorage.getItem("string")) {
+      localStorage.setItem("string", authString)
+    }
+    localStorage.setItem("loggedIn", true);
 
-    await fetch ('http://localhost:5000/login_user', {
+    fetch ('http://localhost:5000/login_user', {
       method: "POST",
       headers: {
+        "Accept": "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         "user_id": userData["id"],
+        "display_name": userData["display_name"],
         "access_token": tokens["access_token"],
         "refresh_token": tokens["refresh_token"],
-        "auth_string": authString
+        "auth_string": localStorage.getItem("string", authString)
       })
-    })
+    });
   }
 
   async function getUserData(authToken) {
@@ -70,6 +75,19 @@ function App() {
     return userData;
   }
 
+  async function getUserFromDB() {
+    const userDataDB = await fetch('http://localhost:5000/get_user_from_db', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        "auth_string": localStorage.getItem("string")
+      })
+    });
+    return userDataDB.json();
+  }
+
   useEffect(() => {
     const paramString = window.location.href.split('?')[1];
     const urlParams = new URLSearchParams(paramString);
@@ -78,11 +96,21 @@ function App() {
 
     if (code && state) {
       getUser(paramString).then(data => {
-        setUserData(data);
-        setIsLoggedIn(true);
+        window.location.href = '/';
+      });
+    }
+    else {
+      console.log(localStorage.getItem("loggedIn"));
+      getUserFromDB().then(data => {
+        console.log(data, localStorage.getItem("loggedIn"));
+        if (data != 404 && localStorage.getItem("loggedIn") !== "false") {
+          setUserData(data);
+          setIsLoggedIn(true);
+        }
       });
     }
   }, []);
+
   return (
     <div className="App">
       <BrowserRouter>
