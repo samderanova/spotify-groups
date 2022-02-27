@@ -27,6 +27,7 @@ def home():
 def get_user_data():
     request = urllib.request.Request("https://api.spotify.com/v1/me")
     request.add_header("Authorization", flask.request.headers["Authorization"])
+    app.logger.info(flask.request.headers["Authorization"])
     response = urllib.request.urlopen(request)
     return response.read()
 
@@ -39,17 +40,17 @@ def login_user():
         user_doc.insert_one({
             "user_id": flask.request.args.get("user_id"), 
             "access_token": flask.request.args.get("access_token"),
+            "auth_string": flask.request.args.get("auth_string"),
             "refresh_token": flask.request.args.get("refresh_token"),
             "logged_in": True
         })
     else:
         user_doc.update({"_id": user_doc["_id"]}, {"$set": {"logged_in": True}})
-    ...
 
 @app.route("/logout_user", methods=["POST"])
-def login_user():
+def logout_user():
     user_collection = database["user_info"]
-    user_doc = user_collection.find_one_and_update({""})
+    user_doc = user_collection.find_one_and_update({"auth_string"})
 
 
 @app.route("/users/<method>", methods=["GET"])
