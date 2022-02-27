@@ -42,10 +42,10 @@ function App() {
           {
             console.log(data["access_token"]);
             fetch('http://localhost:5000/user_data', {
-              method: "POST",
-              body: JSON.stringify({
-                "access_token" : data["access_token"],
-              })
+              method: "GET",
+              headers: {
+                "Authorization" : "Bearer " + data["access_token"],
+              }
             }).then(res => {
               res.json().then(data => {
                 console.log(data);
