@@ -14,7 +14,7 @@ json_type = Dict[str, object]
 app = Flask(__name__)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app)
 db_object = pymongo.MongoClient(env_variables["MONGO_URL"])
 database = db_object.get_database("SpotiGroup")
 
