@@ -29,25 +29,21 @@ function Home() {
         setCurrentPlaylist('test');
         setCurrentAlbum('test2');
         setQueue([
-            <div className="queue">
-                <div className="card" key="1">
-                    <div className="row align-items-center">
-                        <div className="col-md-4">
-                            <span className="small-playlist-logo"></span>
-                        </div>
-                        <div className="col-md-8">
-                            <p>Song 1</p>
-                        </div>
+            <div className="queue" id="queue-songs">
+                <div key="1" className="queue-song">
+                    <span className="small-playlist-logo queue-logo"></span>
+                    <p className="queue-names">Song 1</p>
+                    <div className="requester-opts">
+                        <i className="fa-solid fa-ellipsis queue-dots"></i>
+                        <p class="queue-requester">User name</p>
                     </div>
                 </div>
-                <div className="card" key="2">
-                    <div className="row align-items-center">
-                        <div className="col-md-4">
-                            <span className="small-playlist-logo"></span>
-                        </div>
-                        <div className="col-md-8">
-                            <p>Song 2</p>
-                        </div>
+                <div key="2" className="queue-song">
+                    <span className="small-playlist-logo queue-logo"></span>
+                    <p className="queue-names">Song 2</p>
+                    <div className="requester-opts">
+                        <i className="fa-solid fa-ellipsis queue-dots"></i>
+                        <p className="queue-requester">User name</p>
                     </div>
                 </div>
             </div>
@@ -98,7 +94,7 @@ function Home() {
     return (
         <div className="Home">
             <div className="container">
-                <h1 className="text-center">Playlist Name</h1>
+                <div id="home-top-spacing"></div>
                 <div className="row">
                     <div className="col-lg-4">
                         <div className="widget-decoration"></div>
@@ -114,14 +110,18 @@ function Home() {
 
                     {/* MAIN PLAYER */}
                     <div className="col-lg-4">
+                        <div className="widget-decoration" id="player-widget-decor">
+                            <p id="playlist-name">Playlist Name</p>
+                        </div>
                         <div id="player-top-container" className="row py-2 px-3 m-auto">
 
                             <div style={{ position: "relative" }}>
-                                <div class="row">
+                                <div className="row" id="album-logo-vote">
 
                                     <span id="album-logo" style={{ backgorundImage: `url(${currentAlbum})` }}></span>
 
-                                    <div style={{ position: "absolute", left: "100%", top: "50%", transform: "translateY(-50%)"}}>
+                                    {/* <div style={{ position: "absolute", left: "100%", top: "50%", transform: "translateY(-50%)"}}> */}
+                                    <div id="vote-btns">
                                         <button className="btn" onClick={e => upvote(currentAlbum, e)}>
                                             <i className="vote fa-solid fa-caret-up"></i>
                                         </button>
@@ -138,11 +138,11 @@ function Home() {
                                 <h5>Song Album</h5>
                             </div>
 
-                            <div id="slider-row" class="row">
-                                <div id="song-name-tag" class="col-lg-6">
+                            <div id="slider-row" className="row">
+                                <div id="song-name-tag" className="col-lg-6">
                                     <h5>Name's choice</h5>
                                 </div>
-                                <div class="col-lg-6">
+                                <div className="col-lg-6" id="vol-slider">
                                     <Slider value={value} onChange={changeVolume}/>
                                 </div>
                             </div>
@@ -157,8 +157,8 @@ function Home() {
                                     </span>
                                 </div>
                                 <div className="col-md-4">
-                                    <span className="small-playlist-logo" onClick={playPause} style={{ position: "relative" }}>
-                                        <i className={`fa-solid ${playPauseIcon}`} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}></i>
+                                    <span className="small-playlist-logo" onClick={playPause} style={{ position: "relative" }} id="play-pause-btn">
+                                        <i className={`fa-solid ${playPauseIcon}`} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} id="play-pause-btn"></i>
                                     </span>
                                 </div>
                                 <div className="col-md-4">
@@ -178,22 +178,52 @@ function Home() {
 
 
                     <div className="col-lg-4">
-                        <div className="w-75 py-2 px-3 mb-5 m-auto card">
-                            <h2>Queue:</h2>
-                            {queue}
+                        <div className="widget-decoration" id="queue-widget-decor">
+                            <p id="queue-name">Queue</p>
                         </div>
-                        <div className="w-75 py-2 px-3 m-auto card">
-                            <h2>Listening Now:</h2>
-                            <ul>
-                                <li>Person 1</li>
-                                <li>Person 2</li>
-                                <li>Person 3</li>
-                                <li>Person 4</li>
-                                <li>Person 5</li>
-                            </ul>
+                        <div className="w-75 py-2 px-3 mb-5 m-auto  gen-widget">
+                            {queue}
+                            <div id="queue-bottom-bar">
+                                <div id="switch-queue-pages">
+                                    <button className="btn" onClick={e => upvote(currentAlbum, e)}>
+                                        <i className="switch-queue fa-solid fa-caret-up"></i>
+                                    </button>
+                                    <button className="btn" onClick={e => downvote(currentAlbum, e)}>
+                                        <i className="switch-queue fa-solid fa-caret-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="widget-decoration" id="listening-widget-decor">
+                            <p id="listening-name">Listening Now</p>
+                        </div>
+                        <div className="w-75 py-2 px-3 m-auto gen-widget">
+                            <div id="listening-people">
+                                <div class="listening-person">
+                                    <span className="small-playlist-logo"></span>
+                                    <p className="person-name">Person 1</p>
+                                </div>
+                                <div class="listening-person">
+                                <span className="small-playlist-logo"></span>
+                                    <p className="person-name">Person 2</p>
+                                </div>
+                                <div class="listening-person">
+                                <span className="small-playlist-logo"></span>
+                                    <p className="person-name">Person 3</p>
+                                </div>
+                                <div class="listening-person">
+                                <span className="small-playlist-logo"></span>
+                                    <p className="person-name">Person 4</p>
+                                </div>
+                                <div class="listening-person">
+                                <span className="small-playlist-logo"></span>
+                                    <p className="person-name">Person 5</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div id="home-bottom-spacing"></div>
             </div>
         </div>
     )
