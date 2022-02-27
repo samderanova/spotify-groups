@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask_socketio import SocketIO, join_room, leave_room, emit, send
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 import flask
 from spotify_api_objects import client_credentials, spotify_oauth
 from typing import Any, Dict
@@ -12,9 +12,10 @@ import urllib.request
 json_type = Dict[str, object]
 
 app = Flask(__name__)
+app.host = 'localhost'
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 
 @app.route("/", methods=["GET"])
@@ -31,7 +32,6 @@ def get_user_data():
 
 
 @app.route("/users/<method>", methods=["GET"])
-@cross_origin()
 def functions(method: str):
     if method == "login":
         return jsonify(url=spotify_oauth.get_authorize_url(state=util.id_generator(size=8)))
@@ -49,6 +49,10 @@ def functions(method: str):
         ...
 
 
+@socketio.on("create_room")
+def create_room(data: json_type):
+    pass
+
 
 @socketio.on("join_room")
 def on_join(data: json_type):
@@ -57,12 +61,12 @@ def on_join(data: json_type):
     :param data: Data from client side
     :return:
     """
-    username = data.get('username', None)
+    user_id = data.get('user_id', None)
     room = data.get("room", 0)
     if room is None:
         app.logger.error("Room number is not provided")
     join_room(room)
-    app.logger.info(f"{username} has entered room {room}")
+    app.logger.info(f"{user_id} has entered room {room}")
 
 
 @socketio.on("leave_room")
