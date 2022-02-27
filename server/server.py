@@ -50,6 +50,7 @@ def login_user():
         user_doc.update({"_id": user_doc["_id"]}, {"$set": {"logged_in": True}})
     return "200, OK"
 
+
 @app.route("/get_user_from_db", methods=["POST"])
 def get_user():
     user_collection = database["user_info"]

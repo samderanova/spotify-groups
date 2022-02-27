@@ -23,7 +23,7 @@ function App() {
 
   function logout(e) {
     setIsLoggedIn(false);
-    localStorage.setItem("loggedIn", false);
+    localStorage.clear();
     window.location.href = '/';
   }
 
@@ -90,7 +90,6 @@ function App() {
       });
     }
     else {
-      console.log(localStorage.getItem("loggedIn"));
       getUserFromDB().then(data => {
         console.log(data, localStorage.getItem("loggedIn"));
         if (data != 404 && localStorage.getItem("loggedIn") !== "false") {
@@ -129,7 +128,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           {userData ?
-            <Route path="/room/:roomID" element={<Room userID={userData.id} />} />
+            <Route path="/room/:roomID" element={<Room userID={userData.id} accessToken={userData["access_token"]}/>} />
           :
             <Route></Route>
           }

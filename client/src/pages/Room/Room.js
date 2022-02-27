@@ -1,16 +1,15 @@
 import React, { useEffect, useState, useContext} from 'react';
 import io from 'socket.io-client';
 import { useParams } from 'react-router-dom';
-
+import WebPlayback from '../../components/WebPlayback';
 
 function Room(props) {
-    const { userID } = props;
+    const { userID, accessToken } = props;
     const { roomID } = useParams();
 
     useEffect(() => {
         // If there is no room ID (i.e. the route is /room) then create a new room.
         // Otherwise, load the room.
-        console.log(roomID, roomID === undefined);
         if (roomID === undefined) {
             const randomStr = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             let generatedRandomStr = "";
@@ -40,11 +39,7 @@ function Room(props) {
                 </div>
             :
                 <div className="display-room">
-
-                    <script src="https://sdk.scdn.co/spotify-player.js"></script>
-                    <script>
-
-                    </script>
+                    <WebPlayback token={accessToken} />
                 </div>
             }
         </div>
