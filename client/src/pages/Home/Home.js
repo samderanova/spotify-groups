@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Slider from '@material-ui/core/Slider';
 import VolumeUp from '@material-ui/icons/VolumeUp';
@@ -32,7 +32,7 @@ function Home() {
                     <p className="queue-names">Song 1</p>
                     <div className="requester-opts">
                         <i className="fa-solid fa-ellipsis queue-dots"></i>
-                        <p class="queue-requester">User name</p>
+                        <p className="queue-requester">User name</p>
                     </div>
                 </div>
                 <div key="2" className="queue-song">

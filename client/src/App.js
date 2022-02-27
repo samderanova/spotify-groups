@@ -4,6 +4,7 @@ import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 
 import Home from './pages/Home/Home';
 import Room from './pages/Room/Room';
+import UserContext from './components/UserContext';
 
 import logo from './logo.svg';
 import './App.css';
@@ -13,11 +14,10 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState({});
 
-  function login(e) {
+  function login() {
     fetch("http://localhost:5000/users/login")
       .then(res => res.json()
       .then(data => {
-        console.log(data["url"]);
         window.location.href = data["url"]
       }));
   }
@@ -50,16 +50,17 @@ function App() {
               }
             }).then(res => {
               res.json().then(data => {
+                
                 setUserData(data);
                 setIsLoggedIn(true);
               })
+            }).catch(err => {
+              alert("Unfortunately, you must have Spotify Premium to use this app!");
             })
           }
         });
       });
-
     }
-
   }, []);
   return (
     <div className="App">
@@ -88,11 +89,17 @@ function App() {
         </Navbar>
         <Routes>
           <Route path="/" element={<Home />} />
-          {userData ? 
+          {userData ?
+            <Route path="/room/:roomID" element={<Room userID={userData.id} />} />
+          :
+            <div></div>
+          }
+          {userData ?
             <Route path="/room" element={<Room userID={userData.id} />} />
           :
             <div></div>
           }
+
         </Routes>
       </BrowserRouter>
     </div>
