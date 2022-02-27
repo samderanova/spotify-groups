@@ -86,15 +86,15 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Navbar bg="dark" expand="lg" variant="dark">
+        <Navbar bg="light" expand="lg" variant="light" className="py-2" id="navbar">
           <Container>
-            <Navbar.Brand href="/">
-              <img src={logo} alt="SpotiGroup logo" width="100" />
-              SpotiGroup
+            <Navbar.Brand href="/" id="site-name">
+              SpotiGroups
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto">
+                <Nav.Link href="room" id="create-room-nav"><button type="button" className="btn btn-none" style={{ color: "white" }}>Create Room</button></Nav.Link>
                 {isLoggedIn ?
                   <NavDropdown title={`Hello, ${userData.display_name}!`} id="basic-nav-dropdown">
                     <NavDropdown.Item>

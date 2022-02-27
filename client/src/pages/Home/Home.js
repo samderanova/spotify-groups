@@ -131,10 +131,10 @@ function Home() {
 
 
     return (
-        <div className="Home">
-            <div id="body-container" className="container">
+        <div id="body-container" className="Home">
+            <div className="container">
                 <div id="home-top-spacing"></div>
-                <Link to="/room">Create Room</Link>
+                {/* <Link to="/room">Create Room</Link> */}
                 <div className="row">
                     <div className="col-lg-4">
                         <div className="widget-decoration" id="group-playlist-widget-decor"></div>
@@ -318,11 +318,8 @@ function Home() {
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-                <div id="home-bottom-spacing"></div>
-
+                
                 <div id="themes-row" className="row">
                     <Popup trigger={<button id="theme-button">Themes</button>} position="top center">
                             <div class="songs-popup">
