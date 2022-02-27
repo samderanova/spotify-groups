@@ -27,7 +27,7 @@ function Room(props) {
         else {
             let socket = io.connect("http://localhost:5000");
             socket.on('connect', () => {
-                socket.emit('create_room', {roomId: roomID});
+                socket.emit('create_room', {"roomID": roomID});
             });
         }
     }, []);
