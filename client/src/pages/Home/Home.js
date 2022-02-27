@@ -8,13 +8,42 @@ import 'reactjs-popup/dist/index.css';
 import './Home.css';
 
 
-function Home() {
+function Home() { 
     const [playlists, setPlaylists] = useState([]);
     const [currentPlaylist, setCurrentPlaylist] = useState('');
     const [currentAlbum, setCurrentAlbum] = useState('');
     const [queue, setQueue] = useState([]);
     const [playPauseIcon, setPlayPauseIcon] = useState('fa-play');
     const [value, setValue] = useState(10);
+
+                            // Dreamy
+    const colorDict = {1: {'color1':'#464C89', 'color2': '#CA95D7', 'color3': '#EFD8EB', 'color4': '#BEE1E6',
+                            'color5': '#C9FBD4', 'color6': '#4B8581', 'color7': '#FFFBEF'},
+                            //Berry Bush
+                        2: {'color1':'#FFFBEF', 'color2': '#651532', 'color3': '#B4C792', 'color4': '#0E3B25',
+                            'color5': '#325931', 'color6': '#2A6547', 'color7': '#AFAA99'},
+                            //Melon
+                        3: {'color1':'#0E3B25', 'color2': '#2E6949', 'color3': '#F6BD60', 'color4': '#F28482',
+                            'color5': '#A9CCB3', 'color6': '#43694E', 'color7': '#F7EDE2'},
+                            //Dusk
+                        4: {'color1':'#FFFFFF', 'color2': '#9181A5', 'color3': '#454464', 'color4': '#5B7594',
+                            'color5': '#1F4571', 'color6': '#231745', 'color7': '#EBE8F3'},
+                            //Candy
+                        5: {'color1':'#662C58', 'color2': '#98DACD', 'color3': '#FFD19A', 'color4': '#D675A5',
+                            'color5': '#E5A9A9', 'color6': '#662C58', 'color7': '#FFDBDB'},
+                            //Terracotta
+                        6: {'color1':'#FFFFFF', 'color2': '#812203', 'color3': '#E2A569', 'color4': '#99482D',
+                            'color5': '#D07846', 'color6': '#3A241A', 'color7': '#EEE1D3'}
+                        };
+
+    var paletteNum = 1;
+    var currColor1 = colorDict[paletteNum]['color1'];
+    var currColor2 = colorDict[paletteNum]['color2'];
+    var currColor3 = colorDict[paletteNum]['color3'];
+    var currColor4 = colorDict[paletteNum]['color4'];
+    var currColor5 = colorDict[paletteNum]['color5'];
+    var currColor6 = colorDict[paletteNum]['color6'];
+    var currColor7 = colorDict[paletteNum]['color7'];
 
     const changeVolume = (event, newValue) => {
         setValue(newValue);
@@ -75,29 +104,41 @@ function Home() {
             setPlayPauseIcon('play');
         }
     }
-    
 
-    // function slide(event) {
-    //     var slider = document.getElementById("myRange");
-    //     var output = document.getElementById("demo");
-    //     output.innerHTML = slider.value; // Display the default slider value
-    //     // Update the current slider value (each time you drag the slider handle)
-    //     slider.oninput = function() {
-    //     output.innerHTML = this.value;
-    //     } 
-    // }
+    function setPalette(num) {
+        paletteNum = num;
+        var r = document.querySelector(':root');
+        var rs = getComputedStyle(r);
+
+        currColor1 = colorDict[paletteNum]['color1'];
+        currColor2 = colorDict[paletteNum]['color2'];
+        currColor3 = colorDict[paletteNum]['color3'];
+        currColor4 = colorDict[paletteNum]['color4'];
+        currColor5 = colorDict[paletteNum]['color5'];
+        currColor6 = colorDict[paletteNum]['color6'];
+        currColor7 = colorDict[paletteNum]['color7'];
+
+        r.style.setProperty('--color1', currColor1);
+        r.style.setProperty('--color2', currColor2);
+        r.style.setProperty('--color3', currColor3);
+        r.style.setProperty('--color4', currColor4);
+        r.style.setProperty('--color5', currColor5);
+        r.style.setProperty('--color6', currColor6);
+        r.style.setProperty('--color7', currColor7);
+
+        console.log('color7: ' + currColor7);
+    }
 
 
     return (
         <div className="Home">
-            <div className="container">
+            <div id="body-container" className="container">
                 <div id="home-top-spacing"></div>
-                <h1 className="text-center">Playlist Name</h1>
                 <Link to="/room">Create Room</Link>
                 <div className="row">
                     <div className="col-lg-4">
                         <div className="widget-decoration"></div>
-                        <div className="w-75 py-2 px-3 m-auto gen-widget">
+                        <div id="leftmostBox" className="w-75 py-2 px-3 m-auto gen-widget">
                             <span id="playlist-logo" style={{ backgroundImage: `url(${currentPlaylist})` }}></span>
                             <h2 className="text-center" id="group-name">Study Group</h2>
                             <h3 className="text-center" id="group-playlists-header">Playlists</h3>
@@ -106,25 +147,25 @@ function Home() {
                             </div>
                         </div>
                     </div>
-
+                    
                     {/* MAIN PLAYER */}
                     <div className="col-lg-4">
                         <div className="widget-decoration" id="player-widget-decor">
-                            <p id="playlist-name">Playlist Name</p>
+                            <p id="playlist-name-title">Playlist Name</p>
                         </div>
                         <div id="player-top-container" className="row py-2 px-3 m-auto">
 
                             <div style={{ position: "relative" }}>
                                 <div className="row" id="album-logo-vote">
 
-                                    <span id="album-logo" style={{ backgorundImage: `url(${currentAlbum})` }}></span>
+                                    <span id="album-logo" style={{ backgroundImage: `url(${currentAlbum})` }}></span>
 
                                     {/* <div style={{ position: "absolute", left: "100%", top: "50%", transform: "translateY(-50%)"}}> */}
                                     <div id="vote-btns">
-                                        <button className="btn" onClick={e => upvote(currentAlbum, e)}>
+                                        <button id="upvote-btn" className="btn" onClick={e => upvote(currentAlbum, e)}>
                                             <i className="vote fa-solid fa-caret-up"></i>
                                         </button>
-                                        <button className="btn" onClick={e => downvote(currentAlbum, e)}>
+                                        <button id="downvote-btn" className="btn" onClick={e => downvote(currentAlbum, e)}>
                                             <i className="vote fa-solid fa-caret-down"></i>
                                         </button>
                                     </div>
@@ -152,7 +193,7 @@ function Home() {
                             <div id="player-buttons" className="row audio-controls align-items-center">
                                 <div className="col-md-4">
                                     <span>
-                                        <i className="fa-solid fa-backward-fast"></i>
+                                        <i id="back-btn" className="fa-solid fa-backward-fast"></i>
                                     </span>
                                 </div>
                                 <div className="col-md-4">
@@ -162,7 +203,7 @@ function Home() {
                                 </div>
                                 <div className="col-md-4">
                                     <span>
-                                        <i className="fa-solid fa-forward-fast"></i>
+                                        <i id="forward-btn" className="fa-solid fa-forward-fast"></i>
                                     </span>
                                 </div>
                             </div>
@@ -171,28 +212,57 @@ function Home() {
                                 <Popup trigger={<button id="queue-button">Queue song</button>}
                                 position="top center">
                                 <div id="queue-button-popup">
-                                    <h3 id="your-playlists">Your Playlists</h3>
+                                    <h3 class="popup-header">Your Playlists</h3>
 
-                                    <Popup trigger={<button class="playlist-button">Playlist name</button>}
+                                    <Popup trigger={<button class="popup-option">Playlist name</button>}
                                     position="right center">
                                         <div class="songs-popup">
-                                            <h5 class="playlist-songs">Playlist name songs</h5>
+                                            <h5 class="popup-header">Playlist name songs</h5>
                                             {/* onclick function for these buttons will add them to the queue */}
-                                            <button class="song-button">Song name</button>
-                                            <button class="song-button">Song name</button>
-                                            <button class="song-button">Song name</button>
-                                            <button class="song-button">Song name</button>
-                                            <button class="song-button">Song name</button>
-                                            <button class="song-button">Song name</button>
-                                            <button class="song-button">Song name</button>
-                                            <button class="song-button">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
                                         </div>
                                     </Popup>
 
-                                    <button class="playlist-button">Playlist name</button>
-                                    <button class="playlist-button">Playlist name</button>
-                                    <button class="playlist-button">Playlist name</button>
-                                    <button class="playlist-button">Playlist name</button>
+                                    <Popup trigger={<button class="popup-option">Playlist name</button>}
+                                    position="right center">
+                                        <div class="songs-popup">
+                                            <h5 class="popup-header">Playlist name songs</h5>
+                                            {/* onclick function for these buttons will add them to the queue */}
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                        </div>
+                                    </Popup>
+
+                                    <Popup trigger={<button class="popup-option">Playlist name</button>}
+                                    position="right center">
+                                        <div class="songs-popup">
+                                            <h5 class="popup-header">Playlist name songs</h5>
+                                            {/* onclick function for these buttons will add them to the queue */}
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                            <button class="popup-option">Song name</button>
+                                        </div>
+                                    </Popup>
+
+                                    
                                 </div>
                                 </Popup>
 
@@ -211,15 +281,15 @@ function Home() {
                         <div className="widget-decoration" id="queue-widget-decor">
                             <p id="queue-name">Queue</p>
                         </div>
-                        <div className="w-75 py-2 px-3 mb-5 m-auto  gen-widget">
+                        <div id="queue-box" className="w-75 py-2 px-3 mb-5 m-auto  gen-widget">
                             {queue}
                             <div id="queue-bottom-bar">
                                 <div id="switch-queue-pages">
                                     <button className="btn" onClick={e => upvote(currentAlbum, e)}>
-                                        <i className="switch-queue fa-solid fa-caret-up"></i>
+                                        <i id="queue-right" className="switch-queue fa-solid fa-caret-up"></i>
                                     </button>
                                     <button className="btn" onClick={e => downvote(currentAlbum, e)}>
-                                        <i className="switch-queue fa-solid fa-caret-down"></i>
+                                        <i id="queue-left" className="switch-queue fa-solid fa-caret-down"></i>
                                     </button>
                                 </div>
                             </div>
@@ -227,8 +297,8 @@ function Home() {
                         <div className="widget-decoration" id="listening-widget-decor">
                             <p id="listening-name">Listening Now</p>
                         </div>
-                        <div className="w-75 py-2 px-3 m-auto gen-widget">
-                            <div id="listening-people">
+                        <div id="listenerBox" className="w-75 py-2 px-3 m-auto gen-widget">
+                            <div id="listening-people" >
                                 <div class="listening-person">
                                     <span className="small-playlist-logo"></span>
                                     <p className="person-name">Person 1</p>
@@ -250,16 +320,23 @@ function Home() {
                     </div>
 
 
-                    {/* <div id="queue-popup">
-                        <div class="col-lg-1"></div>
-
-                        <div class="col-lg-10">Your playlists</div>
-
-                        <div class="col-lg-1"></div>
-                    </div> */}
-
                 </div>
                 <div id="home-bottom-spacing"></div>
+
+                <div id="themes-row" className="row">
+                    <Popup trigger={<button id="theme-button">Themes</button>} position="top center">
+                            <div class="songs-popup">
+                                <button class="theme-option" onClick={e => setPalette(1, e)}>Dreamy</button>
+                                <button class="theme-option" onClick={e => setPalette(2, e)}>Berry Bush</button>
+                                <button class="theme-option" onClick={e => setPalette(3, e)}>Melon</button>
+                                <button class="theme-option" onClick={e => setPalette(4, e)}>Dusk</button>
+                                <button class="theme-option" onClick={e => setPalette(5, e)}>Candy</button>
+                                <button class="theme-option" onClick={e => setPalette(6, e)}>Terracotta</button>
+                            </div>
+                    </Popup>
+                </div>
+
+                <div id="very-bottom-spacing"></div>
             </div>
         </div>
     )
