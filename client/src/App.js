@@ -22,16 +22,25 @@ function App() {
 
   function logout(e) {
     setIsLoggedIn(false);
+    window.clear();
   }
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location);
+    const paramString = window.location.href.split('?')[1];
+    const urlParams = new URLSearchParams(paramString);
     const code = urlParams.get("code");
     const state = urlParams.get("state");
     
     console.log(code, state);
 
     if (code && state) {
+
+      fetch('http://localhost:5000/users/get_token?' + paramString).then(res => {
+        res.json().then(data => {
+          console.log(data);
+        })
+      })
+
       setIsLoggedIn(true);
     }
 
