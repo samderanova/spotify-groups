@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 
 import Home from './pages/Home/Home';
+import Room from './pages/Room/Room';
 
 import logo from './logo.svg';
 import './App.css';
@@ -10,6 +11,7 @@ import './App.css';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState({});
 
   function login(e) {
     fetch("http://localhost:5000/users/login")
@@ -48,14 +50,14 @@ function App() {
               }
             }).then(res => {
               res.json().then(data => {
-                console.log(data);
+                setUserData(data);
+                setIsLoggedIn(true);
               })
             })
           }
         });
       });
 
-      setIsLoggedIn(true);
     }
 
   }, []);
@@ -72,7 +74,7 @@ function App() {
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto">
                 {isLoggedIn ?
-                  <NavDropdown title={`Hello, user!`} id="basic-nav-dropdown">
+                  <NavDropdown title={`Hello, ${userData.display_name}!`} id="basic-nav-dropdown">
                     <NavDropdown.Item>
                       <button type="button" className="btn btn-none w-100 text-start" onClick={logout}>Logout</button>
                     </NavDropdown.Item>
@@ -86,6 +88,11 @@ function App() {
         </Navbar>
         <Routes>
           <Route path="/" element={<Home />} />
+          {userData ? 
+            <Route path="/room" element={<Room userID={userData.id} />} />
+          :
+            <div></div>
+          }
         </Routes>
       </BrowserRouter>
     </div>

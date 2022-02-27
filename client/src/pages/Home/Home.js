@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { io } from 'socket.io-client';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 import Slider from '@material-ui/core/Slider';
 import VolumeUp from '@material-ui/icons/VolumeUp';
 import VolumeDown from '@material-ui/icons/VolumeDown';
@@ -8,11 +7,6 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './Home.css';
 
-// const socket = io('http://localhost:5000');
-
-// io.on('connection', socket => {
-
-// })
 
 function Home() {
     const [playlists, setPlaylists] = useState([]);
@@ -44,6 +38,7 @@ function Home() {
     
     useEffect(() => {
         // fetch().then(res => {}).catch(err => console.error(err));
+
         setCurrentPlaylist('test');
         setCurrentAlbum('test2');
         setQueue([
@@ -104,6 +99,8 @@ function Home() {
         <div className="Home">
             <div className="container">
                 <div id="home-top-spacing"></div>
+                <h1 className="text-center">Playlist Name</h1>
+                <Link to="/room">Create Room</Link>
                 <div className="row">
                     <div className="col-lg-4">
                         <div className="widget-decoration"></div>
