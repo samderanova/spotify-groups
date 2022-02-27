@@ -137,7 +137,7 @@ function Home() {
                 <Link to="/room">Create Room</Link>
                 <div className="row">
                     <div className="col-lg-4">
-                        <div className="widget-decoration"></div>
+                        <div className="widget-decoration" id="group-playlist-widget-decor"></div>
                         <div id="leftmostBox" className="w-75 py-2 px-3 m-auto gen-widget">
                             <span id="playlist-logo" style={{ backgroundImage: `url(${currentPlaylist})` }}></span>
                             <h2 className="text-center" id="group-name">Study Group</h2>
@@ -198,7 +198,7 @@ function Home() {
                                 </div>
                                 <div className="col-md-4">
                                     <span className="small-playlist-logo" onClick={playPause} style={{ position: "relative" }} id="play-pause-btn">
-                                        <i className={`fa-solid ${playPauseIcon}`} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }} id="play-pause-btn"></i>
+                                        <i className={`fa-solid ${playPauseIcon}`} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}></i>
                                     </span>
                                 </div>
                                 <div className="col-md-4">
