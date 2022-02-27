@@ -326,27 +326,31 @@
     border-bottom: none;
 }
 
-.playlist-button {
-    border-radius: 30px;
-    padding:3px;
+.playlist-button, .song-button {
+    border: none;
+    padding: 3px 15px 3px 15px;
+    margin: 2px;
 }
 
-/* border radius won't work? */
+#queue-button-div {
+    border-radius: 30px;
+}
+
 #your-playlists {
     background:grey;
     color:white;
-    border-radius:30;
+    border-radius: 10px;
     text-align:center;
 }
 
 .playlist-songs{
     background:grey;
     color:white;
-    border-radius:30;
+    border-radius: 10px;
     text-align:center;
+    padding: 5px;
 }
 
-/* border radius and flex won't work? */
 .popup-content {
     border-radius: 30px;
     background-color:#cfcfcf;
@@ -354,6 +358,12 @@
     justify-content:center;
     align-items:center;
     text-align:center;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.5));
+    padding: 5px;
+}
+
+.popup-arrow {
+    color: #cfcfcf;
 }
 
 

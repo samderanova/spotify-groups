@@ -174,7 +174,7 @@ function Home() {
                                 <Popup trigger={<button id="queue-button">Queue song</button>}
                                 position="top center">
                                 <div id="queue-button-popup">
-                                    <h3 id="your-playlists">Your playlists</h3>
+                                    <h3 id="your-playlists">Your Playlists</h3>
 
                                     <Popup trigger={<button class="playlist-button">Playlist name</button>}
                                     position="right center">
@@ -247,10 +247,6 @@ function Home() {
                                 <div class="listening-person">
                                 <span className="small-playlist-logo"></span>
                                     <p className="person-name">Person 4</p>
-                                </div>
-                                <div class="listening-person">
-                                <span className="small-playlist-logo"></span>
-                                    <p className="person-name">Person 5</p>
                                 </div>
                             </div>
                         </div>
