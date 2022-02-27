@@ -18,22 +18,22 @@ function Home() {
 
                             // Dreamy
     const colorDict = {1: {'color1':'#464C89', 'color2': '#CA95D7', 'color3': '#EFD8EB', 'color4': '#BEE1E6',
-                            'color5': '#C9FBD4', 'color6': '#4B8581', 'color7': '#FFFBEF'},
+                            'color5': '#C9FBD4', 'color6': '#4B8581', 'color7': '#FFFBEF', 'color8': '#4B8581'},
                             //Berry Bush
                         2: {'color1':'#FFFBEF', 'color2': '#651532', 'color3': '#B4C792', 'color4': '#0E3B25',
-                            'color5': '#325931', 'color6': '#2A6547', 'color7': '#AFAA99'},
+                            'color5': '#325931', 'color6': '#2A6547', 'color7': '#AFAA99', 'color8': '#940036'},
                             //Melon
                         3: {'color1':'#0E3B25', 'color2': '#2E6949', 'color3': '#F6BD60', 'color4': '#F28482',
-                            'color5': '#A9CCB3', 'color6': '#43694E', 'color7': '#F7EDE2'},
+                            'color5': '#A9CCB3', 'color6': '#43694E', 'color7': '#F7EDE2', 'color8': '#2A6547'},
                             //Dusk
                         4: {'color1':'#FFFFFF', 'color2': '#9181A5', 'color3': '#454464', 'color4': '#5B7594',
-                            'color5': '#1F4571', 'color6': '#231745', 'color7': '#EBE8F3'},
+                            'color5': '#1F4571', 'color6': '#231745', 'color7': '#EBE8F3', 'color8': '#231745'},
                             //Candy
                         5: {'color1':'#662C58', 'color2': '#98DACD', 'color3': '#FFD19A', 'color4': '#D675A5',
-                            'color5': '#E5A9A9', 'color6': '#662C58', 'color7': '#FFDBDB'},
+                            'color5': '#E5A9A9', 'color6': '#662C58', 'color7': '#FFDBDB', 'color8': '#662C58'},
                             //Terracotta
                         6: {'color1':'#FFFFFF', 'color2': '#812203', 'color3': '#E2A569', 'color4': '#99482D',
-                            'color5': '#D07846', 'color6': '#3A241A', 'color7': '#EEE1D3'}
+                            'color5': '#D07846', 'color6': '#3A241A', 'color7': '#EEE1D3', 'color8': '#3A241A'}
                         };
 
     var paletteNum = 1;
@@ -44,6 +44,7 @@ function Home() {
     var currColor5 = colorDict[paletteNum]['color5'];
     var currColor6 = colorDict[paletteNum]['color6'];
     var currColor7 = colorDict[paletteNum]['color7'];
+    var currColor8 = colorDict[paletteNum]['color8'];
 
     const changeVolume = (event, newValue) => {
         setValue(newValue);
@@ -117,6 +118,7 @@ function Home() {
         currColor5 = colorDict[paletteNum]['color5'];
         currColor6 = colorDict[paletteNum]['color6'];
         currColor7 = colorDict[paletteNum]['color7'];
+        currColor8 = colorDict[paletteNum]['color8'];
 
         r.style.setProperty('--color1', currColor1);
         r.style.setProperty('--color2', currColor2);
@@ -125,16 +127,15 @@ function Home() {
         r.style.setProperty('--color5', currColor5);
         r.style.setProperty('--color6', currColor6);
         r.style.setProperty('--color7', currColor7);
+        r.style.setProperty('--color8', currColor8);
 
-        console.log('color7: ' + currColor7);
     }
 
 
     return (
         <div id="body-container" className="Home">
-            <div className="container">
-                <div id="home-top-spacing"></div>
-                {/* <Link to="/room">Create Room</Link> */}
+            <div id="body-container" className="Home">
+                <div id="home-top-spacing" className="container"></div>
                 <div className="row">
                     <div className="col-lg-4">
                         <div className="widget-decoration" id="group-playlist-widget-decor"></div>
@@ -158,17 +159,23 @@ function Home() {
                             <div style={{ position: "relative" }}>
                                 <div className="row" id="album-logo-vote">
 
-                                    <span id="album-logo" style={{ backgroundImage: `url(${currentAlbum})` }}></span>
+                                    <div class="col-lg-3"></div>
 
-                                    {/* <div style={{ position: "absolute", left: "100%", top: "50%", transform: "translateY(-50%)"}}> */}
-                                    <div id="vote-btns">
-                                        <button id="upvote-btn" className="btn" onClick={e => upvote(currentAlbum, e)}>
-                                            <i className="vote fa-solid fa-caret-up"></i>
-                                        </button>
-                                        <button id="downvote-btn" className="btn" onClick={e => downvote(currentAlbum, e)}>
-                                            <i className="vote fa-solid fa-caret-down"></i>
-                                        </button>
+                                    <div class="col-lg-6">
+                                        <span id="album-logo" style={{ backgroundImage: `url(${currentAlbum})` }}></span>
                                     </div>
+
+                                    <div class="col-lg-3">                                     
+                                        <div id="vote-btns">
+                                            <button id="upvote-btn" className="btn" onClick={e => upvote(currentAlbum, e)}>
+                                                <i className="vote fa-solid fa-caret-up"></i>
+                                            </button>
+                                            <button id="downvote-btn" className="btn" onClick={e => downvote(currentAlbum, e)}>
+                                                <i className="vote fa-solid fa-caret-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
         
                                 </div>
                             </div>
@@ -182,8 +189,8 @@ function Home() {
                                 <div id="song-name-tag" className="col-lg-6">
                                     <h5>Name's choice</h5>
                                 </div>
-                                <div className="col-lg-6" id="vol-slider">
-                                    <Slider value={value} onChange={changeVolume}/>
+                                <div className="col-lg-6" id="vol-slider-div">
+                                    <Slider id="vol-slider" value={value} onChange={changeVolume}/>
                                 </div>
                             </div>
 
@@ -319,7 +326,7 @@ function Home() {
                         </div>
                     </div>
                 </div>
-                
+
                 <div id="themes-row" className="row">
                     <Popup trigger={<button id="theme-button">Themes</button>} position="top center">
                             <div class="songs-popup">

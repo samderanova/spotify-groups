@@ -8,7 +8,7 @@ function Room(props) {
     const { roomID } = useParams();
 
     useEffect(() => {
-        // If there is no room ID, i.e. the route is /room, then create a new room.
+        // If there is no room ID (i.e. the route is /room) then create a new room.
         // Otherwise, load the room.
         console.log(roomID, roomID === undefined);
         if (roomID === undefined) {
@@ -27,7 +27,7 @@ function Room(props) {
         else {
             let socket = io.connect("http://localhost:5000");
             socket.on('connect', () => {
-                socket.emit('create_room', {roomId: roomID});
+                socket.emit('create_room', {"roomID": roomID});
             });
         }
     }, []);
@@ -41,6 +41,10 @@ function Room(props) {
             :
                 <div className="display-room">
 
+                    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+                    <script>
+
+                    </script>
                 </div>
             }
         </div>

@@ -6,6 +6,7 @@
     --color5: #C9FBD4;
     --color6: #4B8581;
     --color7: #FFFBEF; 
+    --color8: #4B8581;
 }
 
 #body-container {
@@ -13,10 +14,10 @@
 }
 
 #upvote-btn{ 
-    color:var(--color2);
+    color:var(--color8);
 }
 #downvote-btn{
-    color:var(--color2);
+    color:var(--color8);
 }
 
 #home-top-spacing, #home-bottom-spacing {
@@ -132,6 +133,8 @@
 #song-details {
     background-color: var(--color5);
     border-radius:30px;
+    color:var(--color1);
+    margin: 3px;
 }
 
 #player-buttons {
@@ -226,7 +229,7 @@
     margin-left: 15px;
     padding-top: 7px;
     margin-bottom: -2px;
-
+    color:var(--color8);
 }
 
 .Home button {
@@ -246,6 +249,7 @@
     margin-bottom: -40px;
     height: 80px;
     width: 150px;
+    color:var(--color1);
 }
 
 #queue-box{
@@ -258,7 +262,7 @@
     text-align: center;
     font-size: 30px;
     line-height: 35px;
-    color: #FFFFFF;
+    color:var(--color1);
 }
 
 #queue-songs {
@@ -361,7 +365,7 @@
     font-size: 24px;
     line-height: 30px;
     text-align: center;
-    color: #FFFFFF;
+    color:var(--color1);
 }
 
 .person-name{
@@ -427,7 +431,7 @@
 }
 
 .popup-arrow {
-    color: #cfcfcf;
+    color: var(--color4);
 }
 
 #themes-row{
@@ -655,6 +659,7 @@
     #vol-slider {
         padding-top: 17px;
         padding-bottom: 0;
+        color:var(--color8);
     }
 }
 
@@ -686,6 +691,7 @@
     #vol-slider {
         padding-top: 7px;
         margin-bottom: -2px;
+        color:var(--color8);
     }
 
     #playlist-logo {
@@ -806,7 +812,7 @@
         width: 100%;
     }      
 
-    #vol-slider {
+    #vol-slider-div {
         margin-left: 15px;
     }
 
