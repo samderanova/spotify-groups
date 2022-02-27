@@ -22,7 +22,7 @@ function App() {
 
   function logout(e) {
     setIsLoggedIn(false);
-    window.location.href = window.location.hostname;
+    window.location.href = '/';
   }
 
   useEffect(() => {
@@ -35,7 +35,23 @@ function App() {
 
       fetch('http://localhost:5000/users/get_token?' + paramString).then(res => {
         res.json().then(data => {
+          
           console.log(data);
+
+          if (data)
+          {
+            console.log(data["access_token"]);
+            fetch('http://localhost:5000/user_data', {
+              method: "POST",
+              body: JSON.stringify({
+                "access_token" : data["access_token"],
+              })
+            }).then(res => {
+              res.json().then(data => {
+                console.log(data);
+              })
+            })
+          }
         });
       });
 

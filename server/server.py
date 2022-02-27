@@ -6,7 +6,7 @@ from spotify_api_objects import client_credentials, spotify_oauth
 from typing import Any, Dict
 from secret_stuff import env_variables
 import util
-import json
+import requests
 
 json_type = Dict[str, object]
 
@@ -19,6 +19,15 @@ socketio = SocketIO(app)
 @app.route("/", methods=["GET"])
 def home():
     return jsonify(text="Home page")
+
+
+@app.route("/user_data", methods=["POST"])
+def get_user_data():
+    headers = {
+        "Authorization": flask.request.args.get("access_token")
+    }
+    response = requests.get("https://api.spotify.com/v1/me", headers=headers)
+    return response.json()
 
 
 @app.route("/users/<method>", methods=["GET"])
