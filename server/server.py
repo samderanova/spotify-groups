@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from flask_socketio import SocketIO, join_room, leave_room, emit, send
 from flask_cors import CORS
 import flask
-from spotify_api_objects import client_credentials, spotify_oauth
+from spotify_api_objects import spotify_oauth
 from typing import Any, Dict
 from secret_stuff import env_variables
 import util
@@ -47,7 +47,9 @@ def login_user():
             "logged_in": True
         })
     else:
-        user_doc.update({"_id": user_doc["_id"]}, {"$set": {"logged_in": True}})
+        user_collection.update_one({"_id": user_doc["_id"]}, {"$set": {"logged_in": True,
+                                                            "access_token": request_data.get("access_token"),
+                                                            "refresh_token": request_data.get("refresh_token")}})
     return "200, OK"
 
 

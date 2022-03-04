@@ -8,14 +8,29 @@ import 'reactjs-popup/dist/index.css';
 import './Home.css';
 
 
-function Home() { 
+const track = {
+    name: "",
+    album: {
+        images: [
+            { url: "" }
+        ]
+    },
+    artists: [
+        { name: "" }
+    ]
+}
+
+function Home(props) {
     const [playlists, setPlaylists] = useState([]);
     const [currentPlaylist, setCurrentPlaylist] = useState('');
     const [currentAlbum, setCurrentAlbum] = useState('');
     const [queue, setQueue] = useState([]);
     const [playPauseIcon, setPlayPauseIcon] = useState('fa-play');
     const [value, setValue] = useState(10);
-
+    const [player, setPlayer] = useState(undefined);
+    const [is_paused, setPaused] = useState(false);
+    const [is_active, setActive] = useState(false);
+    const [current_track, setTrack] = useState(track);
                             // Dreamy
     const colorDict = {1: {'color1':'#464C89', 'color2': '#CA95D7', 'color3': '#EFD8EB', 'color4': '#BEE1E6',
                             'color5': '#C9FBD4', 'color6': '#4B8581', 'color7': '#FFFBEF', 'color8': '#4B8581'},
@@ -36,15 +51,15 @@ function Home() {
                             'color5': '#D07846', 'color6': '#3A241A', 'color7': '#EEE1D3', 'color8': '#3A241A'}
                         };
 
-    var paletteNum = 1;
-    var currColor1 = colorDict[paletteNum]['color1'];
-    var currColor2 = colorDict[paletteNum]['color2'];
-    var currColor3 = colorDict[paletteNum]['color3'];
-    var currColor4 = colorDict[paletteNum]['color4'];
-    var currColor5 = colorDict[paletteNum]['color5'];
-    var currColor6 = colorDict[paletteNum]['color6'];
-    var currColor7 = colorDict[paletteNum]['color7'];
-    var currColor8 = colorDict[paletteNum]['color8'];
+    let paletteNum = 1;
+    let currColor1 = colorDict[paletteNum]['color1'];
+    let currColor2 = colorDict[paletteNum]['color2'];
+    let currColor3 = colorDict[paletteNum]['color3'];
+    let currColor4 = colorDict[paletteNum]['color4'];
+    let currColor5 = colorDict[paletteNum]['color5'];
+    let currColor6 = colorDict[paletteNum]['color6'];
+    let currColor7 = colorDict[paletteNum]['color7'];
+    let currColor8 = colorDict[paletteNum]['color8'];
 
     const changeVolume = (event, newValue) => {
         setValue(newValue);
@@ -87,7 +102,74 @@ function Home() {
                 <p className="playlist-name">Playlist Name</p>
             </div>
         ]);
+        createPlayer(props);
+
     }, []);
+
+    let spotifyPlayer;
+    const createPlayer = (props) => {
+        const script = document.createElement("script");
+        script.src = "https://sdk.scdn.co/spotify-player.js";
+        script.async = true;
+
+        document.body.appendChild(script);
+
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            console.log(props.accessToken);
+
+            const player = new window.Spotify.Player({
+                name: 'Web Playback SDK',
+                getOAuthToken: cb => {
+                    console.log(props.accessToken);
+                    cb(props.accessToken);
+                },
+                volume: 0.5,
+                origin: 'http://localhost:3000'
+            });
+
+            console.log("player", player);
+            setPlayer(player);
+            spotifyPlayer = player;
+
+            player.addListener('ready', ({ device_id }) => {
+                console.log('Ready with Device ID', device_id);
+            });
+
+            player.addListener('not_ready', ({ device_id }) => {
+                console.log('Device ID has gone offline', device_id);
+            });
+
+            player.addListener('initialization_error', ({message}) => {
+                console.error(message);
+            });
+
+            player.addListener('authentication_error', ({message}) => {
+                console.error(message);
+            });
+
+            player.addListener('account_error', ({message}) => {
+                console.error(message);
+            });
+            player.addListener('player_state_changed', ( state => {
+                if (!state) {
+                    return;
+                }
+
+                setTrack(state.track_window.current_track);
+                setPaused(state.paused);
+
+
+                player.getCurrentState().then( state => {
+                    (!state)? setActive(false) : setActive(true)
+                });
+
+            }));
+
+
+            player.connect();
+
+        };
+    }
 
     function upvote(currentSong, event) {
 
@@ -114,10 +196,23 @@ function Home() {
 
     }
 
+    const togglePlay = () => {
+        spotifyPlayer.togglePlay();
+    }
+
+    const nextSong = () => {
+        spotifyPlayer.nextTrack();
+    }
+
+    const prevSong = () =>{
+        spotifyPlayer.previousTrack();
+    }
+
+
     function setPalette(num) {
         paletteNum = num;
-        var r = document.querySelector(':root');
-        var rs = getComputedStyle(r);
+        const r = document.querySelector(':root');
+        const rs = getComputedStyle(r);
 
         currColor1 = colorDict[paletteNum]['color1'];
         currColor2 = colorDict[paletteNum]['color2'];
@@ -207,17 +302,17 @@ function Home() {
                         <div id="player-buttons" className="row audio-controls align-items-center">
                             <div className="col-md-4">
                                 <span>
-                                    <i id="back-btn" className="fa-solid fa-backward-fast"></i>
+                                    <i id="back-btn" className="fa-solid fa-backward-fast" onClick={prevSong}></i>
                                 </span>
                             </div>
                             <div className="col-md-4">
                                 <span className="small-playlist-logo" onClick={playPause} style={{ position: "relative" }} id="play-pause-btn">
-                                    <i className={`fa-solid ${playPauseIcon}`} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}></i>
+                                    <i className={`fa-solid ${playPauseIcon}`} onClick={togglePlay} style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}></i>
                                 </span>
                             </div>
                             <div className="col-md-4">
                                 <span>
-                                    <i id="forward-btn" className="fa-solid fa-forward-fast"></i>
+                                    <i id="forward-btn" className="fa-solid fa-forward-fast" onClick={nextSong}></i>
                                 </span>
                             </div>
                         </div>
