@@ -106,7 +106,6 @@ function Home(props) {
 
     }, []);
 
-    let spotifyPlayer;
     const createPlayer = (props) => {
         const script = document.createElement("script");
         script.src = "https://sdk.scdn.co/spotify-player.js";
@@ -129,8 +128,6 @@ function Home(props) {
 
             console.log("player", player);
             setPlayer(player);
-            spotifyPlayer = player;
-
             player.addListener('ready', ({ device_id }) => {
                 console.log('Ready with Device ID', device_id);
             });
@@ -197,15 +194,15 @@ function Home(props) {
     }
 
     const togglePlay = () => {
-        spotifyPlayer.togglePlay();
+        player.togglePlay();
     }
 
     const nextSong = () => {
-        spotifyPlayer.nextTrack();
+        player.nextTrack();
     }
 
     const prevSong = () =>{
-        spotifyPlayer.previousTrack();
+        player.previousTrack();
     }
 
 
