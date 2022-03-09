@@ -40,7 +40,7 @@ def login_user():
     user_doc = user_collection.find_one({"user_id": request_data.get("user_id")})
     if not user_doc:
         user_collection.insert_one({
-            "user_id": request_data.get("user_id"), 
+            "user_id": request_data.get("user_id"),
             "display_name": request_data.get("display_name"),
             "access_token": request_data.get("access_token"),
             "refresh_token": request_data.get("refresh_token"),
@@ -48,8 +48,9 @@ def login_user():
         })
     else:
         user_collection.update_one({"_id": user_doc["_id"]}, {"$set": {"logged_in": True,
-                                                            "access_token": request_data.get("access_token"),
-                                                            "refresh_token": request_data.get("refresh_token")}})
+                                                                       "access_token": request_data.get("access_token"),
+                                                                       "refresh_token": request_data.get(
+                                                                           "refresh_token")}})
     return "200, OK"
 
 
@@ -63,12 +64,12 @@ def get_user():
     return "404"
 
 
-
 @app.route("/logout_user", methods=["POST"])
 def logout_user():
     request_data = flask.request.json
     user_collection = database["user_info"]
-    user_collection.find_one_and_update({"auth_string": request_data.get("auth_string")}, {"$set": {"logged_in": False}})
+    user_collection.find_one_and_update({"auth_string": request_data.get("auth_string")},
+                                        {"$set": {"logged_in": False}})
     return "200"
 
 
@@ -122,7 +123,6 @@ def on_leave(data: json_type):
     leave_room(roomID)
     app.logger.info(f"{userID} has left room {roomID}")
     socketio.emit("leave_room_announcement", to=roomID)
-
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)
