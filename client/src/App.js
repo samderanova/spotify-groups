@@ -32,7 +32,7 @@ function App() {
     localStorage.setItem("string", userData["id"]);
     localStorage.setItem("loggedIn", true);
 
-    fetch ('http://localhost:5000/login_user', {
+    await fetch('http://localhost:5000/login_user', {
       method: "POST",
       headers: {
         "Accept": "application/json",
@@ -61,7 +61,7 @@ function App() {
     const tokenResponse = await fetch('http://localhost:5000/users/get_token?' + paramString);
     const tokens = await tokenResponse.json();
     const userData = await getUserData(tokens["access_token"]);
-    loginOrRegisterUser(userData, tokens);
+    await loginOrRegisterUser(userData, tokens);
     return userData;
   }
 
@@ -92,7 +92,7 @@ function App() {
     else {
       getUserFromDB().then(data => {
         console.log(data, localStorage.getItem("loggedIn"));
-        if (data != 404 && localStorage.getItem("loggedIn") !== "false") {
+        if (data !== 404 && localStorage.getItem("loggedIn") !== "false") {
           setUserData(data);
           setIsLoggedIn(true);
         }

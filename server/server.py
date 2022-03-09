@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from flask_socketio import SocketIO, join_room, leave_room, emit, send
 from flask_cors import CORS
 import flask
-from spotify_api_objects import client_credentials, spotify_oauth
+from spotify_api_objects import spotify_oauth
 from typing import Any, Dict
 from secret_stuff import env_variables
 import util
@@ -40,14 +40,17 @@ def login_user():
     user_doc = user_collection.find_one({"user_id": request_data.get("user_id")})
     if not user_doc:
         user_collection.insert_one({
-            "user_id": request_data.get("user_id"), 
+            "user_id": request_data.get("user_id"),
             "display_name": request_data.get("display_name"),
             "access_token": request_data.get("access_token"),
             "refresh_token": request_data.get("refresh_token"),
             "logged_in": True
         })
     else:
-        user_doc.update({"_id": user_doc["_id"]}, {"$set": {"logged_in": True}})
+        user_collection.update_one({"_id": user_doc["_id"]}, {"$set": {"logged_in": True,
+                                                                       "access_token": request_data.get("access_token"),
+                                                                       "refresh_token": request_data.get(
+                                                                           "refresh_token")}})
     return "200, OK"
 
 
@@ -61,12 +64,12 @@ def get_user():
     return "404"
 
 
-
 @app.route("/logout_user", methods=["POST"])
 def logout_user():
     request_data = flask.request.json
     user_collection = database["user_info"]
-    user_collection.find_one_and_update({"auth_string": request_data.get("auth_string")}, {"$set": {"logged_in": False}})
+    user_collection.find_one_and_update({"auth_string": request_data.get("auth_string")},
+                                        {"$set": {"logged_in": False}})
     return "200"
 
 
@@ -120,7 +123,6 @@ def on_leave(data: json_type):
     leave_room(roomID)
     app.logger.info(f"{userID} has left room {roomID}")
     socketio.emit("leave_room_announcement", to=roomID)
-
 
 if __name__ == "__main__":
     socketio.run(app, debug=True)

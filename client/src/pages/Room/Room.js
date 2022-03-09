@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useContext} from 'react';
 import io from 'socket.io-client';
 import { useParams } from 'react-router-dom';
-import WebPlayback from '../../components/WebPlayback';
-
+import Home from "../../pages/Home/Home.js";
 function Room(props) {
     const { userID, accessToken } = props;
     const { roomID } = useParams();
@@ -39,7 +38,7 @@ function Room(props) {
                 </div>
             :
                 <div className="display-room">
-                    <WebPlayback token={accessToken} />
+                    <Home accessToken={accessToken}/>
                 </div>
             }
         </div>

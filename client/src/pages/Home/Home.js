@@ -8,7 +8,7 @@ import 'reactjs-popup/dist/index.css';
 import './Home.css';
 
 
-function Home() { 
+function Home() {
     const [playlists, setPlaylists] = useState([]);
     const [currentPlaylist, setCurrentPlaylist] = useState('');
     const [currentAlbum, setCurrentAlbum] = useState('');
@@ -49,7 +49,7 @@ function Home() {
     const changeVolume = (event, newValue) => {
         setValue(newValue);
     };
-    
+
     useEffect(() => {
         // fetch().then(res => {}).catch(err => console.error(err));
 
@@ -99,7 +99,7 @@ function Home() {
 
     function playPause(event) {
         if (playPauseIcon === 'play') {
-            setPlayPauseIcon('pause');            
+            setPlayPauseIcon('pause');
         }
         else {
             setPlayPauseIcon('play');
@@ -155,7 +155,7 @@ function Home() {
                         </div>
                     </div>
                 </div>
-                
+
                 {/* MAIN PLAYER */}
                 <div className="col-lg-4">
                     <div className="widget-decoration" id="player-widget-decor">
@@ -172,7 +172,7 @@ function Home() {
                                     <span id="album-logo" style={{ backgroundImage: `url(${currentAlbum})` }}></span>
                                 </div>
 
-                                <div class="col-lg-3">                                     
+                                <div class="col-lg-3">
                                     <div id="vote-btns">
                                         <button id="upvote-btn" className="btn" onClick={e => upvote(currentAlbum, e)}>
                                             <i className="vote fa-solid fa-caret-up"></i>
@@ -182,8 +182,8 @@ function Home() {
                                         </button>
                                     </div>
                                 </div>
-                                
-    
+
+
                             </div>
                         </div>
 
